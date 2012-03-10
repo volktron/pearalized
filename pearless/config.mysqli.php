@@ -7,13 +7,13 @@
  */
 
 // Connect to the database
-$sql_link		= mysql_connect($db_host,$db_user,$db_pass);
+$sql_link		= mysqli_connect($db_host,$db_user,$db_pass);
 if (!$sql_link)
 {
-	error_log("Can't connect to the database: ".mysql_error());
+	error_log("Can't connect to the database: ".mysqli_error());
 }
 
-if (!mysql_select_db($db_name))
+if (!mysqli_select_db($sql_link,$db_name))
 {
 	echo "database unavailable";
 }
@@ -23,13 +23,13 @@ $sql_affected 	= 0;
 
 function sql_query($sql) 
 {
-	$sql_result = mysql_query($sql);
-	$sql_affected = mysql_affected_rows();
+	$sql_result = mysqli_query($sql_link, $sql);
+	$sql_affected = mysqli_affected_rows($sql_link);
 	
 	if (!$sql_result)
 	{
 		// error handling
-		error_log(mysql_error());
+		error_log(mysqli_error($sql_link));
 	}
 	else
 	{
@@ -40,8 +40,8 @@ function sql_query($sql)
 function sql_row($result = false)
 {
 	if (!$result)
-		return mysql_fetch_assoc($sql_result);
-	return mysql_fetch_assoc($result);
+		return mysqli_fetch_assoc($sql_link, $sql_result);
+	return mysqli_fetch_assoc($sql_link, $result);
 }
 
 function sql_all($result = false)
@@ -57,14 +57,14 @@ function sql_all($result = false)
 
 function sql_last_id() 
 {
-	return mysql_last_insert_id();
+	return mysqli_last_insert_id($sql_link);
 }
 
 function sql_sanitize(&$data)
 {
 	if (!is_array($data))
 	{
-		$data = mysql_real_escape_string($data);
+		$data = mysqli_real_escape_string($sql_link, $data);
 	}
 	
 	foreach ($data as $element)
