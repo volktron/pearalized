@@ -15,10 +15,10 @@ $htdocs = $doc_root."/htdocs";
 $css_path = $htdocs."/css";
 
 // Pearless path
-$pearless_path = $doc_root."/pearless";
+$pearless_path = $doc_root."/pearless/pearless";
 
 // Database configuration
-$db_type = "mysql";
+$db_type = "";
 $db_host = "";
 $db_user = "";
 $db_pass = "";
@@ -29,6 +29,6 @@ $memcache_host = "localhost";
 $memcache_port = 11211;
 
 // Include database functions
-require_once($doc_root."/".$include_path."/.config.".$db_type.".php");
+require_once($pearless_path."/config.".$db_type.".php");
 
 ?>
