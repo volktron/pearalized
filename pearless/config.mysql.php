@@ -23,6 +23,7 @@ $sql_affected 	= 0;
 
 function sql_query($sql) 
 {
+	global $sql_result, $sql_affected;
 	$sql_result = mysql_query($sql);
 	$sql_affected = mysql_affected_rows();
 	
@@ -39,6 +40,7 @@ function sql_query($sql)
 
 function sql_row($result = false)
 {
+	global $sql_result;
 	if (!$result)
 		return mysql_fetch_assoc($sql_result);
 	return mysql_fetch_assoc($result);
@@ -46,9 +48,11 @@ function sql_row($result = false)
 
 function sql_all($result = false)
 {
+	global $sql_result;
 	if	(!$result)
 		$result = $sql_result;
-		
+	
+	$n = 0;
 	while ($row = sql_row($result))
 		$data[$n++] = $row;
 		
