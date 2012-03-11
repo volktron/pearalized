@@ -23,7 +23,12 @@ class Grid
 		"header_cell"		=> "grid_header_cell",
 		"header_cell_left"	=> "grid_header_cell_left"
 	);
-	public function Grid(){}
+	
+	public function Grid(&$data=null, $headers_top=false, $array=true)
+	{
+		if ($data != null)
+			bind_data($data, $headers_top, $array);
+	}
 	
 	// Takes data from some source
 	public function bind_data(&$data, $headers_top=false, $array=true)
