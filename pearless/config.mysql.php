@@ -6,74 +6,82 @@
  *	standard sql functions using mysql
  */
 
-// Connect to the database
-$sql_link		= mysql_connect($db_host,$db_user,$db_pass);
-if (!$sql_link)
-{
-	error_log("Can't connect to the database: ".mysql_error());
-}
-
-if (!mysql_select_db($db_name))
-{
-	echo "database unavailable";
-}
-
-$sql_result 	= 0;
-$sql_affected 	= 0;
-
-function sql_query($sql) 
-{
-	global $sql_result, $sql_affected;
-	$sql_result = mysql_query($sql);
-	$sql_affected = mysql_affected_rows();
+class PLDB 
+{ 
+	private $sql_link;
+	private $sql_result;
 	
-	if (!$sql_result)
-	{
-		// error handling
-		error_log(mysql_error());
-	}
-	else
-	{
-		return $sql_result;
-	}
-}
-
-function sql_row($result = false)
-{
-	global $sql_result;
-	if (!$result)
-		return mysql_fetch_assoc($sql_result);
-	return mysql_fetch_assoc($result);
-}
-
-function sql_all($result = false)
-{
-	global $sql_result;
-	if	(!$result)
-		$result = $sql_result;
+	public $sql_affected;
 	
-	$n = 0;
-	while ($row = sql_row($result))
-		$data[$n++] = $row;
+	public function PLDB($db_host,$db_user,$db_pass,$db_name)
+	{
+		// Connect to the database
+		$this->sql_link = mysql_connect($db_host,$db_user,$db_pass);
+		if (!$this->sql_link)
+		{
+			error_log("Can't connect to the database: ".mysql_error());
+		}
+
+		if (!mysql_select_db($db_name))
+		{
+			echo "database unavailable";
+		}
+
+		$this->sql_result 	= 0;
+		$this->sql_affected = 0;
+	}
+	
+	public function sql_query($sql) 
+	{
+		$this->sql_result = mysql_query($sql);
+		$this->sql_affected = mysql_affected_rows();
 		
-	return $data;
-}
-
-function sql_last_id() 
-{
-	return mysql_last_insert_id();
-}
-
-function sql_sanitize(&$data)
-{
-	if (!is_array($data))
-	{
-		$data = mysql_real_escape_string($data);
+		if (!$this->sql_result)
+		{
+			error_log(mysql_error());
+		}
+		else
+		{
+			return $this->sql_result;
+		}
 	}
-	
-	foreach ($data as $element)
+
+	public function sql_row($result = false)
 	{
-		sql_sanitize($element);
+		if (!$result)
+			return mysql_fetch_assoc($this->sql_result);
+		return mysql_fetch_assoc($result);
+	}
+
+	public function sql_all($result = false)
+	{
+		if	(!$result)
+			$result = $this->sql_result;
+		
+		$data = array();
+		$n = 0;
+		while ($row = $this->sql_row($result))
+			$data[$n++] = $row;
+			
+		return $data;
+	}
+
+	public function sql_last_id() 
+	{
+		return mysql_last_insert_id();
+	}
+
+	function sql_sanitize(&$data)
+	{
+		if (!is_array($data))
+		{
+			$data = mysql_real_escape_string($data);
+		}
+		
+		foreach ($data as $element)
+		{
+			$this->sql_sanitize($element);
+		}
 	}
 }
 

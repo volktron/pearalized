@@ -56,6 +56,7 @@ class PLDB
 		if	(!$result)
 			$result = $this->sql_result;
 			
+		$data = array();
 		$n = 0;
 		while ($row = $this->sql_row($result))
 			$data[$n++] = $row;
@@ -77,7 +78,7 @@ class PLDB
 		
 		foreach ($data as $element)
 		{
-			sql_sanitize($element);
+			$this->sql_sanitize($element);
 		}
 	}
 
