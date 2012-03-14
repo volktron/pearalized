@@ -6,78 +6,80 @@
  *	standard sql functions using mysql
  */
 
-// Connect to the database
-$sql_link		= mysqli_connect($db_host,$db_user,$db_pass);
-if (!$sql_link)
-{
-	error_log("Can't connect to the database: ".mysqli_error());
-}
-
-if (!mysqli_select_db($sql_link,$db_name))
-{
-	echo "database unavailable";
-}
-
-$sql_result 	= 0;
-$sql_affected 	= 0;
-
-function sql_query($sql) 
-{
-	global $sql_link, $sql_result, $sql_affected;
-	$sql_result = mysqli_query($sql_link, $sql);
-	$sql_affected = mysqli_affected_rows($sql_link);
+class PLDB 
+{ 
+	private $sql_link;
+	private $sql_result;
 	
-	if (!$sql_result)
-	{
-		// error handling
-		error_log(mysqli_error($sql_link));
-	}
-	else
-	{
-		$sql_result;
-		return $sql_result;
-	}
-}
+	public $sql_affected;
+	
+	public function PLDB($db_host,$db_user,$db_pass,$db_name)
+	{	
+		// Connect to the database
+		$this->sql_link = mysqli_connect($db_host,$db_user,$db_pass);
+		if (!$this->sql_link)
+		{
+			error_log("Can't connect to the database: ".mysqli_error());
+		}
 
-function sql_row($result = false)
-{
-	global $sql_result;
-	if (!$result)
-		return mysqli_fetch_assoc($sql_result);
-	return mysqli_fetch_assoc($result);
-}
+		if (!mysqli_select_db($this->sql_link,$db_name))
+		{
+			echo "database unavailable";
+		}
 
-function sql_all($result = false)
-{
-	global $sql_result;
-	if	(!$result)
-		$result = $sql_result;
-		
-	$n = 0;
-	while ($row = sql_row($result))
-		$data[$n++] = $row;
-		
-	return $data;
-}
-
-function sql_last_id() 
-{
-	global $sql_link;
-	return mysqli_last_insert_id($sql_link);
-}
-
-function sql_sanitize(&$data)
-{
-	global $sql_link;
-	if (!is_array($data))
-	{
-		$data = mysqli_real_escape_string($sql_link, $data);
+		$this->sql_result 	= 0;
+		$this->sql_affected = 0;
 	}
 	
-	foreach ($data as $element)
+	public function sql_query($sql) 
 	{
-		sql_sanitize($element);
+		$this->sql_result = mysqli_query($this->sql_link, $sql);
+		$this->sql_affected = mysqli_affected_rows($this->sql_link);
+		
+		if (!$this->sql_result)
+		{
+			error_log(mysqli_error($this->sql_link));
+		}
+		
+		return $this->sql_result;
 	}
-}
 
+	public function sql_row($result = false)
+	{
+		if (!$result)
+			return mysqli_fetch_assoc($sql_result);
+		return mysqli_fetch_assoc($result);
+	}
+
+	public function sql_all($result = false)
+	{
+		if	(!$result)
+			$result = $this->sql_result;
+			
+		$n = 0;
+		while ($row = $this->sql_row($result))
+			$data[$n++] = $row;
+			
+		return $data;
+	}
+
+	public function sql_last_id() 
+	{
+		return mysqli_last_insert_id($sql_link);
+	}
+
+	public function sql_sanitize(&$data)
+	{
+		if (!is_array($data))
+		{
+			$data = mysqli_real_escape_string($this->sql_link, $data);
+		}
+		
+		foreach ($data as $element)
+		{
+			sql_sanitize($element);
+		}
+	}
+
+}
 ?>

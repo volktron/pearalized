@@ -15,6 +15,8 @@ class Grid
 	private $using_sql;
 	private $using_sql_headers;
 	
+	private $db;
+	
 	private $css = array(	// kv array of css classes
 		"table" 			=> "grid_table",
 		"row" 				=> "grid_row",
@@ -41,8 +43,9 @@ class Grid
 	}
 	
 	// Create data from a SQL query
-	public function bind_query($sql, $headers=true, $now=false)
+	public function bind_query(&$db, $sql, $headers=true, $now=false)
 	{
+		$this->db					= $db;
 		$this->sql 					= $sql;
 		$this->using_sql 			= true;
 		$this->using_sql_headers 	= $headers;
@@ -90,8 +93,8 @@ class Grid
 	// Executes the query
 	private function execute_sql()
 	{
-		$result_object 	= sql_query($this->sql);
-		$this->data 	= sql_all($result_object);
+		$result_object 	= $this->db->sql_query($this->sql);
+		$this->data 	= $this->db->sql_all($result_object);
 		
 		if ($this->using_sql_headers)
 			$this->bind_headers_top( array_keys($this->data[0]) );

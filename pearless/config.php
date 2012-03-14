@@ -28,7 +28,8 @@ $db_name = "";
 $memcache_host = "localhost";
 $memcache_port = 11211;
 
-// Include database functions
+// Include database object
 require_once($pearless."/config.".$db_type.".php");
+$db = new PLDB($db_host,$db_user,$db_pass,$db_name);
 
 ?>
