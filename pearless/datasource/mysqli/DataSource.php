@@ -50,12 +50,12 @@ class DataSource implements DataSourceInterface
 		return new Result($sql_result);
 	}
 
-	public function sql_last_id() 
+	public function last_insert_id() 
 	{
 		return mysqli_last_insert_id($sql_link);
 	}
 
-	public function sql_sanitize(&$data)
+	public function sanitize(&$data)
 	{
 		if (!is_array($data))
 		{
