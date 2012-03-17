@@ -1,38 +1,26 @@
 <?php
 
-/*	config.mysql.php
+/*	MySQLi DataSource
  *	@author Henrik Volckmer
- *
- *	MySQLi DataSource
  */
 
 namespace pearless\datasource\mysqli;
 
 use pearless\datasource\DataSourceInterface;
-use mysqli;
 class DataSource implements DataSourceInterface
 { 
 	private $sql_link;
-	private $sql_result;
 	
 	public $sql_affected;
 	
 	public function __construct($params)
 	{	
-		// Connect to the database
-		$mysqli = new mysqli(
-					$params['db_host'],
-					$params['db_user'],
-					$params['db_pass'],
-					$params['db_name']
-					);
-			
-					
+		// Connect to the database					
 		$this->sql_link = mysqli_connect(
 			$params['db_host'],
 			$params['db_user'],
 			$params['db_pass']
-			);
+		);
 		if (!$this->sql_link)
 		{
 			error_log("Can't connect to the database: ".mysqli_error());
@@ -51,35 +39,15 @@ class DataSource implements DataSourceInterface
 	
 	public function execute($statement, $params = null)
 	{
-		$this->sql_result = mysqli_query($this->sql_link, $statement);
+		$sql_result = mysqli_query($this->sql_link, $statement);
 		$this->sql_affected = mysqli_affected_rows($this->sql_link);
 		
-		if (!$this->sql_result)
+		if (!$sql_result)
 		{
 			error_log(mysqli_error($this->sql_link));
 		}
 		
-		return $this->sql_result;
-	}
-
-	public function sql_row($result = false)
-	{
-		if (!$result)
-			return mysqli_fetch_assoc($sql_result);
-		return mysqli_fetch_assoc($result);
-	}
-
-	public function sql_all($result = false)
-	{
-		if	(!$result)
-			$result = $this->sql_result;
-			
-		$data = array();
-		$n = 0;
-		while ($row = $this->sql_row($result))
-			$data[$n++] = $row;
-			
-		return $data;
+		return new Result($sql_result);
 	}
 
 	public function sql_last_id() 
