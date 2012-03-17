@@ -1,28 +1,32 @@
 <?php
 
-/*	config.mysql.php
+/*	MySQL DataSource
  *	@author Henrik Volckmer
- *
- *	standard sql functions using mysql
  */
 
-class PLDB 
+namespace pearless\datasource\mysql;
+
+use pearless\datasource\DataSourceInterface;
+class DataSource implements DataSourceInterface
 { 
 	private $sql_link;
-	private $sql_result;
 	
 	public $sql_affected;
 	
-	public function PLDB($db_host,$db_user,$db_pass,$db_name)
+	public function __construct($params)
 	{
 		// Connect to the database
-		$this->sql_link = mysql_connect($db_host,$db_user,$db_pass);
+		$this->sql_link = mysql_connect(
+			$params['db_host'],
+			$params['db_user'],
+			$params['db_pass']
+		);
 		if (!$this->sql_link)
 		{
 			error_log("Can't connect to the database: ".mysql_error());
 		}
 
-		if (!mysql_select_db($db_name))
+		if (!mysql_select_db($params['db_name']))
 		{
 			echo "database unavailable";
 		}
@@ -31,18 +35,20 @@ class PLDB
 		$this->sql_affected = 0;
 	}
 	
-	public function sql_query($sql) 
+	public function prepare($statement){}
+	
+	public function execute($statement, $params = null)
 	{
-		$this->sql_result = mysql_query($sql);
+		$sql_result = mysql_query($statement);
 		$this->sql_affected = mysql_affected_rows();
 		
-		if (!$this->sql_result)
+		if (!$sql_result)
 		{
 			error_log(mysql_error());
 		}
 		else
 		{
-			return $this->sql_result;
+			return new Result($sql_result);
 		}
 	}
 
