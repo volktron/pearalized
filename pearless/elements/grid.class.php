@@ -45,13 +45,13 @@ class Grid
 	// Create data from a SQL query
 	public function bind_statement($db, $statement, $headers=true, $now=false)
 	{
-		$this->db					= $db;
-		$this->statement			= $statement;
-		$this->using_sql 			= true;
+		$this->db			= $db;
+		$this->statement		= $statement;
+		$this->using_sql 		= true;
 		$this->using_sql_headers 	= $headers;
 		
 		if ($now)
-			execute_query();
+			$this->execute_sql();
 	}
 	
 	// Get header strings for top row headers
