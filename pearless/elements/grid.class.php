@@ -12,6 +12,9 @@ class Grid
 	private $headers_top;	// 1d array of header strings
 	private $headers_left;	// 1d array of header strings
 	
+	private $callbacks;
+	private $args;
+	
 	private $using_sql;
 	private $using_sql_headers;
 	
@@ -68,7 +71,7 @@ class Grid
 	
 	// Callback functions
 	// Takes an associative array of $colname => $function
-	public function assign_callbacks($callbacks)
+	public function assign_callbacks($callbacks, $args=array())
 	{
 		// handle associative callback arrays
 		$n = 0;
@@ -88,6 +91,9 @@ class Grid
 			if (is_integer($k))
 				$this->callbacks[$k] = $v;
 		}
+		
+		//considering extra arguments for callback functions
+		$this->args = $args;
 	}
 	
 	// Executes the query
@@ -96,7 +102,7 @@ class Grid
 		$this->data 	= $this->db->execute($this->statement)->fetch_all();
 		
 		if ($this->using_sql_headers)
-			$this->bind_headers_top( array_keys($this->data[0]) );
+				$this->bind_headers_top( array_keys($this->data[0]) );
 	}
 	
 	// draw the grid
@@ -126,7 +132,7 @@ class Grid
 		{
 			foreach($this->headers_top as $header)
 			{
-				$out .= "<th class='".$this->css['header_cell']."'>".$header."</th>";
+				$out .= "<th class='".$this->css['header_cell']."'>".strtoupper($header)."</th>";
 			}
 			
 			$out .= "</tr>";
@@ -135,7 +141,7 @@ class Grid
 		// Data
 		$n = 0;
 		foreach($this->data as $row)
-		{
+		{	
 			$out .= "<tr class='".$this->css['row']."'>";
 			
 			// Left headers
@@ -149,9 +155,9 @@ class Grid
 			
 			$c = 0;
 			foreach($row as $cell)
-			{
+			{	
 				if (isset($this->callbacks[$c]))
-					$cell = $this->callbacks[$c]($cell);
+					$cell = $this->callbacks[$c]($row, $this->args);
 				$out .= "<td class='".$this->css['cell']."'>".$cell."</td>";
 				$c++;
 			}
