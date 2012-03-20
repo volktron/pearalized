@@ -5,6 +5,8 @@
  *	@author Henrik Volckmer
  */
 
+namespace pearless\datasource;
+
 // This is the document root, normally one level above htdocs.
 $doc_root = $_SERVER["DOCUMENT_ROOT"];
 
@@ -15,7 +17,7 @@ $htdocs = $doc_root."/htdocs";
 $css_path = $htdocs."/css";
 
 // Pearless path
-$pearless = $doc_root."/pearless/pearless";
+$pearless = $doc_root."/pearless";
 
 // Database configuration
 $db_type = "";
@@ -28,8 +30,16 @@ $db_name = "";
 $memcache_host = "localhost";
 $memcache_port = 11211;
 
-// Include database object
-require_once($pearless."/config.".$db_type.".php");
-$db = new PLDB($db_host,$db_user,$db_pass,$db_name);
+// Include database functions
+require_once($pearless."/pearless/datasource/DataSourceInterface.php");
+require_once($pearless."/pearless/datasource/ResultInterface.php");
+require_once($pearless."/pearless/datasource/DataSourceFactory.php");
 
+$db = DataSourceFactory::make_datasource(
+		$db_type,
+		array(	"db_host" => $db_host,
+				"db_user" => $db_user,
+				"db_pass" => $db_pass,
+				"db_name" => $db_name));
+		
 ?>
