@@ -69,27 +69,36 @@ class Grid
 		$this->headers_left = $headers;
 	}
 	
-	// Callback functions
-	// Takes an associative array of $colname => $function
+	/* Assign Callback functions
+	* Takes an associative array of $colname => $function
+	*
+	*/
 	public function assign_callbacks($callbacks, $args=array())
 	{
-		// handle associative callback arrays
-		$n = 0;
-		$callback_columns = array_keys($callbacks);
-		foreach($this->headers_top as $column)
+		if (is_array($callbacks))	
 		{
-			if (in_array($column, $callback_columns))
-				$this->callbacks[$n] = $callbacks[$column];
-				
-			$n++;
+			// handle associative callback arrays
+			$n = 0;
+			$callback_columns = array_keys($callbacks);
+			foreach($this->headers_top as $column)
+			{
+				if (in_array($column, $callback_columns))
+					$this->callbacks[$n] = $callbacks[$column];
+					
+				$n++;
+			}
+			
+			// handle non-associative callback arrays
+			$n = 0;
+			foreach($callbacks as $k => $v)
+			{
+				if (is_integer($k))
+					$this->callbacks[$k] = $v;
+			}
 		}
-		
-		// handle non-associative callback arrays
-		$n = 0;
-		foreach($callbacks as $k => $v)
+		else
 		{
-			if (is_integer($k))
-				$this->callbacks[$k] = $v;
+			$this->callbacks = $callbacks;	
 		}
 		
 		//considering extra arguments for callback functions
@@ -132,7 +141,7 @@ class Grid
 		{
 			foreach($this->headers_top as $header)
 			{
-				$out .= "<th class='".$this->css['header_cell']."'>".strtoupper($header)."</th>";
+				$out .= "<th class='".$this->css['header_cell']."'>". $header ."</th>";
 			}
 			
 			$out .= "</tr>";
@@ -156,9 +165,19 @@ class Grid
 			$c = 0;
 			foreach($row as $cell)
 			{	
-				if (isset($this->callbacks[$c]))
-					$cell = $this->callbacks[$c]($row, $this->args);
-				$out .= "<td class='".$this->css['cell']."'>".$cell."</td>";
+				// data to be sent to callback function
+				$data = array(
+					'record'	=> $row,
+					'index'		=> $c
+				);
+				
+				//check if callbacks is array and callback function for current field index is set 
+				if (is_array($this->callbacks) && isset($this->callbacks[$c]))
+					$cell = $this->callbacks[$c]($data, $this->args);
+				else
+					$cell = $this->callbacks($data, $this->args);
+						
+				$out .= "<td class='". $this->css['cell'] ."'>". $cell ."</td>";
 				$c++;
 			}
 			$out .= "</tr>";
