@@ -98,7 +98,7 @@ class Grid
 		}
 		else
 		{
-			$this->callbacks = $callbacks;	
+			$this->callbacks[0] = $callbacks;	
 		}
 		
 		//considering extra arguments for callback functions
@@ -168,14 +168,14 @@ class Grid
 				// data to be sent to callback function
 				$data = array(
 					'record'	=> $row,
-					'index'		=> $c
+					'index'		=> $this->headers_top[$c]
 				);
 				
 				//check if callbacks is array and callback function for current field index is set 
 				if (is_array($this->callbacks) && isset($this->callbacks[$c]))
 					$cell = $this->callbacks[$c]($data, $this->args);
 				else
-					$cell = $this->callbacks($data, $this->args);
+					$cell = $this->callbacks[0]($data, $this->args);
 						
 				$out .= "<td class='". $this->css['cell'] ."'>". $cell ."</td>";
 				$c++;
