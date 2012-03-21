@@ -12,6 +12,9 @@ class Grid
 	private $headers_top;	// 1d array of header strings
 	private $headers_left;	// 1d array of header strings
 	
+	private $callbacks;
+	private $args;
+	
 	private $using_sql;
 	private $using_sql_headers;
 	
@@ -66,28 +69,40 @@ class Grid
 		$this->headers_left = $headers;
 	}
 	
-	// Callback functions
-	// Takes an associative array of $colname => $function
-	public function assign_callbacks($callbacks)
+	/* Assign Callback functions
+	* Takes an associative array of $colname => $function
+	*
+	*/
+	public function assign_callbacks($callbacks, $args=array())
 	{
-		// handle associative callback arrays
-		$n = 0;
-		$callback_columns = array_keys($callbacks);
-		foreach($this->headers_top as $column)
+		if (is_array($callbacks))	
 		{
-			if (in_array($column, $callback_columns))
-				$this->callbacks[$n] = $callbacks[$column];
-				
-			$n++;
+			// handle associative callback arrays
+			$n = 0;
+			$callback_columns = array_keys($callbacks);
+			foreach($this->headers_top as $column)
+			{
+				if (in_array($column, $callback_columns))
+					$this->callbacks[$n] = $callbacks[$column];
+					
+				$n++;
+			}
+			
+			// handle non-associative callback arrays
+			$n = 0;
+			foreach($callbacks as $k => $v)
+			{
+				if (is_integer($k))
+					$this->callbacks[$k] = $v;
+			}
+		}
+		else
+		{
+			$this->callbacks['single_function'] = $callbacks;	
 		}
 		
-		// handle non-associative callback arrays
-		$n = 0;
-		foreach($callbacks as $k => $v)
-		{
-			if (is_integer($k))
-				$this->callbacks[$k] = $v;
-		}
+		//considering extra arguments for callback functions
+		$this->args = $args;
 	}
 	
 	// Executes the query
@@ -96,7 +111,7 @@ class Grid
 		$this->data 	= $this->db->execute($this->statement)->fetch_all();
 		
 		if ($this->using_sql_headers)
-			$this->bind_headers_top( array_keys($this->data[0]) );
+				$this->bind_headers_top( array_keys($this->data[0]) );
 	}
 	
 	// draw the grid
@@ -126,7 +141,7 @@ class Grid
 		{
 			foreach($this->headers_top as $header)
 			{
-				$out .= "<th class='".$this->css['header_cell']."'>".$header."</th>";
+				$out .= "<th class='".$this->css['header_cell']."'>". $header ."</th>";
 			}
 			
 			$out .= "</tr>";
@@ -135,7 +150,7 @@ class Grid
 		// Data
 		$n = 0;
 		foreach($this->data as $row)
-		{
+		{	
 			$out .= "<tr class='".$this->css['row']."'>";
 			
 			// Left headers
@@ -149,10 +164,22 @@ class Grid
 			
 			$c = 0;
 			foreach($row as $cell)
-			{
-				if (isset($this->callbacks[$c]))
-					$cell = $this->callbacks[$c]($cell);
-				$out .= "<td class='".$this->css['cell']."'>".$cell."</td>";
+			{	
+				// data to be sent to callback function
+				$data = array(
+					'record'	=> $row,
+					'index'		=> $this->headers_top[$c]
+				);
+				
+				//check if callbacks is array and callback function for current field index is set 
+				if (is_array($this->callbacks) && isset($this->callbacks[$c]))
+					$cell = $this->callbacks[$c]($data, $this->args);
+				elseif (isset($this->callbacks['single_function']))
+					$cell = $this->callbacks['single_function']($data, $this->args);
+				else 
+					$cell = $cell;
+					
+				$out .= "<td class='". $this->css['cell'] ."'>". $cell ."</td>";
 				$c++;
 			}
 			$out .= "</tr>";
