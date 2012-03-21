@@ -89,7 +89,6 @@ class Grid
 			}
 			
 			// handle non-associative callback arrays
-			$n = 0;
 			foreach($callbacks as $k => $v)
 			{
 				if (is_integer($k))
@@ -98,7 +97,29 @@ class Grid
 		}
 		else
 		{
-			$this->callbacks['single_function'] = $callbacks;	
+			// Use headers array if available
+			if(isset($this->headers_top))
+			{
+				$n = 0;
+				foreach($this->headers_top as $column)
+				{
+					$this->callbacks[$n] = $callbacks;
+					$n++;
+				}
+			}
+			// Use first row of data as a fallback
+			else
+			{
+				$num_cols = 0;
+				foreach($data as $row)
+				{
+					$num_cols = count($row);
+					break;
+				}
+				
+				for ($i = 0; $i < $num_cols; $i++)
+					$this->callbacks[$i] = $callbacks;
+			}
 		}
 		
 		//considering extra arguments for callback functions
@@ -108,7 +129,7 @@ class Grid
 	// Executes the query
 	private function execute_sql()
 	{
-		$this->data 	= $this->db->execute($this->statement)->fetch_all();
+		$this->data = $this->db->execute($this->statement)->fetch_all();
 		
 		if ($this->using_sql_headers)
 				$this->bind_headers_top( array_keys($this->data[0]) );
@@ -141,7 +162,7 @@ class Grid
 		{
 			foreach($this->headers_top as $header)
 			{
-				$out .= "<th class='".$this->css['header_cell']."'>". $header ."</th>";
+				$out .= "<th class='".$this->css['header_cell']."'>".$header."</th>";
 			}
 			
 			$out .= "</tr>";
@@ -162,24 +183,21 @@ class Grid
 						"</td>";
 			}
 			
+			// data to be sent to callback function
+			$data = array(
+				'record' => $row
+			);
+			
 			$c = 0;
 			foreach($row as $cell)
 			{	
-				// data to be sent to callback function
-				$data = array(
-					'record'	=> $row,
-					'index'		=> $this->headers_top[$c]
-				);
-				
-				//check if callbacks is array and callback function for current field index is set 
-				if (is_array($this->callbacks) && isset($this->callbacks[$c]))
+				$data['index'] = $this->headers_top[$c];
+			
+				// Is there a callback function for this column?
+				if (isset($this->callbacks[$c]))
 					$cell = $this->callbacks[$c]($data, $this->args);
-				elseif (isset($this->callbacks['single_function']))
-					$cell = $this->callbacks['single_function']($data, $this->args);
-				else 
-					$cell = $cell;
-					
-				$out .= "<td class='". $this->css['cell'] ."'>". $cell ."</td>";
+				
+				$out .= "<td class='". $this->css['cell'] ."'>".$cell."</td>";
 				$c++;
 			}
 			$out .= "</tr>";
