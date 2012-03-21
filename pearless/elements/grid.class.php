@@ -15,8 +15,8 @@ class Grid
 	private $callbacks;
 	private $args;
 	
-	private $using_sql;
-	private $using_sql_headers;
+	private $using_statement;
+	private $using_statement_headers;
 	
 	private $db;
 	
@@ -48,13 +48,13 @@ class Grid
 	// Create data from a SQL query
 	public function bind_statement($db, $statement, $headers=true, $now=false)
 	{
-		$this->db			= $db;
-		$this->statement		= $statement;
-		$this->using_sql 		= true;
-		$this->using_sql_headers 	= $headers;
+		$this->db						= $db;
+		$this->statement				= $statement;
+		$this->using_statement 			= true;
+		$this->using_statement_headers 	= $headers;
 		
 		if ($now)
-			$this->execute_sql();
+			$this->execute_statement();
 	}
 	
 	// Get header strings for top row headers
@@ -127,11 +127,11 @@ class Grid
 	}
 	
 	// Executes the query
-	private function execute_sql()
+	private function execute_statement()
 	{
 		$this->data = $this->db->execute($this->statement)->fetch_all();
 		
-		if ($this->using_sql_headers)
+		if ($this->using_statement_headers)
 				$this->bind_headers_top( array_keys($this->data[0]) );
 	}
 	
@@ -139,8 +139,8 @@ class Grid
 	public function render_html()
 	{	
 		// If we want to get our data at render time
-		if ($this->using_sql && !$this->data)
-			$this->execute_sql();
+		if ($this->using_statement && !$this->data)
+			$this->execute_statement();
 		
 		// Table declaration
 		$out = "<table class='".$this->css['table']."'>";
