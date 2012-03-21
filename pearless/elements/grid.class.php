@@ -46,7 +46,7 @@ class Grid
 	}
 	
 	// Create data from a SQL query
-	public function bind_statement($db, $statement, $headers=true, $now=false)
+	public function bind_statement($db, $statement, $headers=true, $now=true)
 	{
 		$this->db						= $db;
 		$this->statement				= $statement;
@@ -110,13 +110,7 @@ class Grid
 			// Use first row of data as a fallback
 			else
 			{
-				$num_cols = 0;
-				foreach($data as $row)
-				{
-					$num_cols = count($row);
-					break;
-				}
-				
+				$num_cols = count($this->data[0]);
 				for ($i = 0; $i < $num_cols; $i++)
 					$this->callbacks[$i] = $callbacks;
 			}
