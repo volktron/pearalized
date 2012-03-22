@@ -6,6 +6,7 @@
  *
  */
  
+namespace pearless\elements;
 class Grid 
 {
 	private $data;			// 2d array of data
@@ -43,6 +44,11 @@ class Grid
 			
 		if ($headers_top)
 			$this->bind_headers_top( array_keys($this->data[0]) );
+	}
+	public function data(&$data, $headers_top=false, $array=true)
+	{
+		$this->bind_data($data, $headers_top, $array);
+		return $this;
 	}
 	
 	// Create data from a SQL query
@@ -136,7 +142,7 @@ class Grid
 	}
 	
 	// draw the grid
-	public function render_html()
+	public function html()
 	{	
 		// If we want to get our data at render time
 		if ($this->using_statement && !$this->data)
