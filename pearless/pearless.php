@@ -13,8 +13,6 @@ function p($string)
 	
 	$path = $pearless."/".$classpath.".class.php";
 	
-	echo $path."<br/>".$class;
-	
 	require_once($path);
 	return new $class();
 }
