@@ -18,6 +18,7 @@ $css_path = $htdocs."/css";
 
 // Pearless path
 $pearless = $doc_root."/pearless";
+require_once("pearless.php");
 
 // Database configuration
 $db_type = "";
