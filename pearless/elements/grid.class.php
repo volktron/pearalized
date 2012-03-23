@@ -218,8 +218,12 @@ class Grid
 					isset($params['datasource']))
 			$this->bind_statement(	$params['datasource'], 
 									$params['statement'],
-									($params['statment_headers'] ? $params['statement_headers'] : true),
-									($params['statment_now'] ? $params['statement_now'] : true));
+									(isset($params['statement_headers']) ? $params['statement_headers'] : true),
+									(isset($params['statement_now']) ? $params['statement_now'] : true));
+		else
+		{
+			echo 'PEARLESS ERROR: No data or statement provided'; die;
+		}
 	
 		if (isset($params['headers_top']))
 			$this->bind_headers($params['headers_top']);
