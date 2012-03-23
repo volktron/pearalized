@@ -131,7 +131,6 @@ class Grid
 	}
 
 	// Executes the query
-        // Y U PRIVATE?
 	private function execute_statement()
 	{
 		$this->data = $this->db->execute($this->statement)->fetch_all();
@@ -213,10 +212,26 @@ class Grid
 	}
 
 	/*
-	* One call grid setup fuction
+	* One call grid setup function
+	* @params
+	* 		$classnames - associative array $key => $value
+	*/
+	public function css($classnames)
+	{
+		foreach($this->css as $key => $name)
+		{
+			if (isset($classnames[$key]))
+				$this->css[$key] = $classnames[$key];
+		}
+		
+		return $this;
+	}
+	
+	/*
+	* One call grid setup function
 	* @params
 	* 		$params - associative array $key => $value
-	*					Keys					Values
+	*				Keys					Values
 	*				'data'					2D array of data for the grid
 	*		OR		'statement'				Query to be used for data
 	*				'datasource'			Datasource Object
