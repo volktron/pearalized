@@ -119,6 +119,9 @@ class Grid
 				$num_cols = count($this->data[0]);
 				for ($i = 0; $i < $num_cols; $i++)
 					$this->callbacks[$i] = $callbacks;
+					
+				// set headers_top using keys of data array
+				$this->headers_top = array_keys($this->data[0]);
 			}
 		}
 		
@@ -222,7 +225,9 @@ class Grid
 			$this->bind_headers($params['headers_top']);
 		if (isset($params['headers_left']))
 			$this->bind_headers_left($params['headers_left']);
-			
+		if (isset($params['callbacks']))
+			$this->assign_callbacks($params['callbacks']);
+		
 		return $this;				
 	}
 }
