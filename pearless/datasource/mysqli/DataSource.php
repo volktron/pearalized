@@ -17,16 +17,16 @@ class DataSource implements DataSourceInterface
 	{	
 		// Connect to the database					
 		$this->sql_link = mysqli_connect(
-			$params['db_host'],
-			$params['db_user'],
-			$params['db_pass']
+			$params['host'],
+			$params['user'],
+			$params['pass']
 		);
 		if (!$this->sql_link)
 		{
 			error_log("Can't connect to the database: ".mysqli_error());
 		}
 
-		if (!mysqli_select_db($this->sql_link,$params['db_name']))
+		if (!mysqli_select_db($this->sql_link,$params['database']))
 		{
 			echo "database unavailable";
 		}

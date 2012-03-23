@@ -18,29 +18,21 @@ $css_path = $htdocs."/css";
 
 // Pearless path
 $pearless = $doc_root."/pearless";
-require_once("pearless.php");
+require_once($pearless."/pearless/pearless.php");
 
 // Database configuration
-$db_type = "";
-$db_host = "";
-$db_user = "";
-$db_pass = "";
-$db_name = "";
+$db_params = array(
+	'type' => 'mysqli',
+	'host' => 'localhost',
+	'user' => 'root',
+	'pass' => 'root',
+	'database' => 'test'
+);
+
+$db = p('datasource')->setup($db_params);
 
 // Memcached (optional)
 $memcache_host = "localhost";
 $memcache_port = 11211;
-
-// Include database functions
-require_once($pearless."/pearless/datasource/DataSourceInterface.php");
-require_once($pearless."/pearless/datasource/ResultInterface.php");
-require_once($pearless."/pearless/datasource/DataSourceFactory.php");
-
-$db = DataSourceFactory::make_datasource(
-		$db_type,
-		array(	"db_host" => $db_host,
-				"db_user" => $db_user,
-				"db_pass" => $db_pass,
-				"db_name" => $db_name));
 		
 ?>
