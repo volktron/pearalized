@@ -7,21 +7,17 @@
 
 namespace pearless\datasource;
 
-// This is the document root, normally one level above htdocs.
+// doc_root is normally one level above htdocs.
 $doc_root = $_SERVER["DOCUMENT_ROOT"];
-
-// htdocs directory
 $htdocs = $doc_root."/htdocs";
-
-// CSS path relative 
 $css_path = $htdocs."/css";
+$pearless_path = $doc_root."/pearless";
 
-// Pearless path
-$pearless = $doc_root."/pearless";
-require_once($pearless."/pearless/pearless.php");
+defined('PEARLESS_PATH') or define('PEARLESS_PATH', $pearless_path);
 
-// Database configuration
-$db_params = array(
+require_once(PEARLESS_PATH . "/pearless/pearless.php");
+
+$db_configuration = array(
 	'type' => 'mysqli',
 	'host' => 'localhost',
 	'user' => 'root',
@@ -29,10 +25,10 @@ $db_params = array(
 	'database' => 'test'
 );
 
-$db = p('datasource')->setup($db_params);
+$db = p('datasource')->setup($db_configuration);
 
 // Memcached (optional)
 $memcache_host = "localhost";
 $memcache_port = 11211;
-		
+
 ?>
