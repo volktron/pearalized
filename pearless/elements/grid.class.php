@@ -76,8 +76,9 @@ class Grid
 	}
 	
 	/* Assign Callback functions
-	* Takes an associative array of $colname => $function
-	*
+	* @params
+	*		$callbacks	associative array of $colname => $function OR just single callback function
+	*		$args		extra arguments to be sent to callback function
 	*/
 	public function assign_callbacks($callbacks, $args=array())
 	{
@@ -210,6 +211,21 @@ class Grid
 		return $out;
 	}
 	
+	/*
+	* One call grid setup fuction
+	* @params
+	* 		$params - associative array $key => $value
+	*					Keys					Values
+	*				'data'					2D array of data for the grid
+	*		OR		'statement'				Query to be used for data
+	*				'datasource'			Datasource Object
+	*				'statement_headers'		(Optional) default value true		
+	*				'statement_now'			(Optional) default value true
+	*				'headers_top'			(Optional) Column headers for the grid
+	*				'headers_row'			(Optional) Row headers for the grid
+	*				'callbacks'				(Optional) Callback functions array or just single function name 
+	*
+	*/
 	public function setup($params)
 	{
 		if (isset($params['data']))
