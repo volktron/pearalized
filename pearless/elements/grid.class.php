@@ -206,6 +206,25 @@ class Grid
 		
 		return $out;
 	}
+	
+	public function setup($params)
+	{
+		if (isset($params['data']))
+			$this->bind_data($params['data']);
+		else if (	isset($params['statement']) &&
+					isset($params['datasource']))
+			$this->bind_statement(	$params['datasource'], 
+									$params['statement'],
+									($params['statment_headers'] ? $params['statement_headers'] : true),
+									($params['statment_now'] ? $params['statement_now'] : true));
+	
+		if (isset($params['headers_top']))
+			$this->bind_headers($params['headers_top']);
+		if (isset($params['headers_left']))
+			$this->bind_headers_left($params['headers_left']);
+			
+		return $this;				
+	}
 }
 
 ?>
