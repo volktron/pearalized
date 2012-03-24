@@ -5,7 +5,7 @@ function p($string)
 
 	// For the most important stuff in Pearless to be accessed easily
 	$shortcuts = array(
-		'datasource' => 'pearless\datasource\DataSourceFactory'
+		'datasource' 	=> 'pearless\datasource\DataSourceFactory',
 	);
 
 	if (isset($shortcuts[$string]))
