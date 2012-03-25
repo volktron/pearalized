@@ -1,11 +1,16 @@
 <?php
 
+/*	Pearless.php
+ *	@author Henrik Volckmer
+ */
+
 function p($string)
 {
 
 	// For the most important stuff in Pearless to be accessed easily
 	$shortcuts = array(
 		'datasource' 	=> 'pearless\datasource\DataSourceFactory',
+		'grid'			=> 'pearless\elements\Grid'
 	);
 
 	if (isset($shortcuts[$string]))
