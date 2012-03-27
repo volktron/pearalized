@@ -15,21 +15,34 @@ function p($string)
 {
 
 	// For the most important stuff in Pearless to be accessed easily
-	$shortcuts = array(
-		'datasource' 	=> 'pearless\datasource\DataSourceFactory',
+	$factories = array(
+		'datasource' 	=> 'pearless\datasource\DataSourceFactory'
+	);
+
+	$classes = array(
 		'grid'			=> 'pearless\elements\Grid'
 	);
 
-	if (isset($shortcuts[$string]))
+	if (isset($factories[$string]))
 	{
-		$path = str_replace("\\","/",$shortcuts[$string]);
+		$path = str_replace("\\","/",$factories[$string]);
 		$path = str_replace(" ","",$path);
 		$path = str_replace(">","/",$path).".php";
 		$path = PEARLESS_PATH . "/".$path;
 
 		require_once ($path);
-		return new $shortcuts[$string]();
+		return new $factories[$string]();
 
+	}
+	if (isset($classes[$string]))
+	{
+		$path = str_replace("\\","/",$classes[$string]);
+		$path = str_replace(" ","",$path);
+		$path = str_replace(">","/",$path).".class.php";
+		$path = PEARLESS_PATH . "/".$path;
+
+		require_once ($path);
+		return new $classes[$string]();
 	}
 
 	$class = str_replace(">","\\",$string);
