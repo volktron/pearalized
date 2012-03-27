@@ -97,6 +97,15 @@ class PString
 		else
 			return preg_split($var, $this->val, $limit, $flags);
 	}
+	
+	// explode a string into array
+	public function explode($separator, $limit=false)
+	{
+		if (is_int($limit))
+			return explode($separator, $this->val, $limit);
+		else
+			return explode($separator, $this->val);
+	}
 
 }
 
