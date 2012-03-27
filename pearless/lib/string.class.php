@@ -27,7 +27,7 @@ class PString
 	public function trim($charlist = null)
 	{
 		if ($charlist)
-			$this->val = trim($this->val, $charlist)
+			$this->val = trim($this->val, $charlist);
 		else
 			$this->val = trim($this->val);
 		return $this;
@@ -37,7 +37,7 @@ class PString
 	public function ltrim($charlist = null)
 	{
 		if ($charlist)
-			$this->val = ltrim($this->val, $charlist)
+			$this->val = ltrim($this->val, $charlist);
 		else
 			$this->val = ltrim($this->val);
 		return $this;
@@ -47,7 +47,7 @@ class PString
 	public function rtrim($charlist = null)
 	{
 		if ($charlist)
-			$this->val = rtrim($this->val, $charlist)
+			$this->val = rtrim($this->val, $charlist);
 		else
 			$this->val = rtrim($this->val);
 		return $this;
@@ -79,15 +79,25 @@ class PString
 		$this->val = strtoupper($this->val);
 		return $this;
 	}
+		
+	// String replace
+	public function replace($pattern, $replacement, $regex = false, $limit = -1, &$count)
+	{
+		if (!$regex)
+			$this->val = str_replace($pattern, $replacement, $this->val);
+		else
+			$this->val = preg_replace($pattern, $replacement, $limit, $count);
+	}
 	
 	// Combine str_split and preg_split
 	public function split($var = 1, $limit = -1, $flags = 0)
 	{
-		if (is_int($var)
+		if (is_int($var))
 			return str_split($this->val, $var);
 		else
 			return preg_split($var, $this->val, $limit, $flags);
 	}
+
 }
 
 ?>
