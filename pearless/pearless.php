@@ -4,6 +4,13 @@
  *	@author Henrik Volckmer
  */
 
+require_once(PEARLESS_PATH . "/pearless/lib/string.class.php");
+
+function s($string)
+{
+	return new pearless\lib\PString($string);
+} 
+
 function p($string)
 {
 
