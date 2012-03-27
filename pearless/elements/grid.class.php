@@ -77,7 +77,7 @@ class Grid
 
 	/* Assign Callback functions
 	* @params
-	*		$callbacks	associative array of $colname => $function OR just single callback function
+	*		$callbacks	associative array of $colname => $function OR just a single callback function
 	*		$args		extra arguments to be sent to callback function
 	*/
 	public function assign_callbacks($callbacks, $args=array())
