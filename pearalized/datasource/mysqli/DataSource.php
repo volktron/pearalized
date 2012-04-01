@@ -4,9 +4,9 @@
  *	@author Henrik Volckmer
  */
 
-namespace pearless\datasource\mysqli;
+namespace pearalized\datasource\mysqli;
 
-use pearless\datasource\DataSourceInterface;
+use pearalized\datasource\DataSourceInterface;
 class DataSource implements DataSourceInterface
 { 
 	private $sql_link;

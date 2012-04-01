@@ -4,11 +4,11 @@
  *	@author Henrik Volckmer
  */
 
-require_once(PEARLESS_PATH . "/pearless/lib/string.class.php");
+require_once(PEARALIZED_PATH . "/pearalized/lib/string.class.php");
 
 function s($string)
 {
-	return new pearless\lib\PString($string);
+	return new pearalized\lib\PString($string);
 } 
 
 function p($string)
@@ -16,11 +16,11 @@ function p($string)
 
 	// For the most important stuff in Pearless to be accessed easily
 	$factories = array(
-		'datasource' 	=> 'pearless\datasource\DataSourceFactory'
+		'datasource' 	=> 'pearalized\datasource\DataSourceFactory'
 	);
 
 	$classes = array(
-		'grid'			=> 'pearless\elements\Grid'
+		'grid'			=> 'pearalized\elements\Grid'
 	);
 
 	if (isset($factories[$string]))
@@ -28,7 +28,7 @@ function p($string)
 		$path = str_replace("\\","/",$factories[$string]);
 		$path = str_replace(" ","",$path);
 		$path = str_replace(">","/",$path).".php";
-		$path = PEARLESS_PATH . "/".$path;
+		$path = PEARALIZED_PATH . "/".$path;
 
 		require_once ($path);
 		return new $factories[$string]();
@@ -39,7 +39,7 @@ function p($string)
 		$path = str_replace("\\","/",$classes[$string]);
 		$path = str_replace(" ","",$path);
 		$path = str_replace(">","/",$path).".class.php";
-		$path = PEARLESS_PATH . "/".$path;
+		$path = PEARALIZED_PATH . "/".$path;
 
 		require_once ($path);
 		return new $classes[$string]();
@@ -47,13 +47,13 @@ function p($string)
 
 	$class = str_replace(">","\\",$string);
 	$class = str_replace(" ","",$class);
-	$class = "pearless\\".$class;
+	$class = "pearalized\\".$class;
 
 	$path = str_replace("\\","/",$string);
 	$path = str_replace(" ","",$path);
-	$path = "pearless/".str_replace(">","/",$path);
+	$path = "pearalized/".str_replace(">","/",$path);
 
-	$path = PEARLESS_PATH . "/".$path.".class.php";
+	$path = PEARALIZED_PATH . "/".$path.".class.php";
 
 	require_once($path);
 	return new $class();

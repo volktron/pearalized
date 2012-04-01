@@ -1,6 +1,6 @@
 <?php
 
-namespace pearless\datasource;
+namespace pearalized\datasource;
 
 interface ResultInterface
 {

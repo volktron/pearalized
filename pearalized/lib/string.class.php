@@ -6,7 +6,7 @@
  *
  */
  
-namespace pearless\lib;
+namespace pearalized\lib;
 
 class PString
 {

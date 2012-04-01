@@ -6,7 +6,7 @@
  *
  */
 
-namespace pearless\elements;
+namespace pearalized\elements;
 class Grid
 {
 	private $data;			// 2d array of data
@@ -254,7 +254,7 @@ class Grid
 									(isset($params['statement_now']) ? $params['statement_now'] : true));
 		else
 		{
-			echo 'PEARLESS ERROR: No data or statement provided'; die;
+			echo 'PEARALIZED ERROR: No data or statement provided'; die;
 		}
 
 		if (isset($params['headers_top']))

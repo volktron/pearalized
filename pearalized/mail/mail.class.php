@@ -4,7 +4,7 @@
  * @author Vasudev Gadge
  */
  
-namespace pearless\mail;
+namespace pearalized\mail;
 class Mail
 {
 	private $send_to;		// array of TO email addresses
@@ -35,7 +35,7 @@ class Mail
 			{
 				if(!preg_match('/^([a-zA-Z0-9])+([a-zA-Z0-9\._-])*@([a-zA-Z0-9_-])+([a-zA-Z0-9\._-]+)+$/',$address) ) 
 				{
-					echo "PEARLESS ERROR: invalid email address".$address;die;
+					echo "PEARALIZED ERROR: invalid email address".$address;die;
 				}
 			}
 			return true;
@@ -45,7 +45,7 @@ class Mail
 		{
 			if(!preg_match('/^([a-zA-Z0-9])+([a-zA-Z0-9\._-])*@([a-zA-Z0-9_-])+([a-zA-Z0-9\._-]+)+$/',$addresses) ) 
 			{
-				echo "PEARLESS ERROR: invalid email address".$addresses;die;
+				echo "PEARALIZED ERROR: invalid email address".$addresses;die;
 			}
 			return true;
 		}

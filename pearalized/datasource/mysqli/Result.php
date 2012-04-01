@@ -4,9 +4,9 @@
  *	@author Henrik Volckmer
  */
  
-namespace pearless\datasource\mysqli;
+namespace pearalized\datasource\mysqli;
 
-use pearless\datasource\ResultInterface;
+use pearalized\datasource\ResultInterface;
 class Result implements ResultInterface
 {
 	private $result;

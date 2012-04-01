@@ -5,17 +5,17 @@
  *	@author Henrik Volckmer
  */
 
-namespace pearless\datasource;
+namespace pearalized\datasource;
 
 // doc_root is normally one level above htdocs.
 $doc_root = $_SERVER["DOCUMENT_ROOT"];
 $htdocs = $doc_root."/htdocs";
 $css_path = $htdocs."/css";
-$pearless_path = $doc_root."/pearless";
+$pearalized_path = $doc_root."/pearalized";
 
-defined('PEARLESS_PATH') or define('PEARLESS_PATH', $pearless_path);
+defined('PEARALIZED_PATH') or define('PEARALIZED_PATH', $pearalized_path);
 
-require_once(PEARLESS_PATH . "/pearless/pearless.php");
+require_once(PEARALIZED_PATH . "/pearalized/pearalized.php");
 
 $db_configuration = array(
 	'type' => 'mysqli',

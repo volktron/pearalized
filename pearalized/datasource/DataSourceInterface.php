@@ -4,7 +4,7 @@
  *	@author Henrik Volckmer
  */
 
-namespace pearless\datasource;
+namespace pearalized\datasource;
 
 interface DataSourceInterface
 {
