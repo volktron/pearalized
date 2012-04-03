@@ -81,12 +81,14 @@ class PString
 	}
 		
 	// String replace
-	public function replace($pattern, $replacement, $regex = false, $limit = -1, &$count)
+	public function replace($pattern, $replacement, $regex = false, $limit = -1, &$count = null)
 	{
 		if (!$regex)
 			$this->val = str_replace($pattern, $replacement, $this->val);
 		else
-			$this->val = preg_replace($pattern, $replacement, $limit, $count);
+			$this->val = preg_replace($pattern, $replacement, $this->val, $limit, $count);
+		
+		return $this;
 	}
 	
 	// Combine str_split and preg_split

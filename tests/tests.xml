@@ -1,0 +1,7 @@
+<phpunit>
+	<testsuites>
+		<testsuite name="Pearalized">
+			<directory suffix="test.php">lib</directory>
+		</testsuite>
+	</testsuites>
+</phpunit>
