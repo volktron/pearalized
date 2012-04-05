@@ -7,6 +7,7 @@
 namespace pearalized\datasource\pdo;
 
 use pearalized\datasource\ResultInterface;
+use PDO;
 class Result implements ResultInterface
 {
 	private $result;
@@ -18,12 +19,12 @@ class Result implements ResultInterface
 	
 	public function fetch_row()
 	{
-		return $this->result->fetch();
+		return $this->result->fetch(PDO::FETCH_ASSOC);
 	}
 
 	public function fetch_all()
 	{
-		return $this->result->fetchAll();
+		return $this->result->fetchAll(PDO::FETCH_ASSOC);
 	}
 }
 

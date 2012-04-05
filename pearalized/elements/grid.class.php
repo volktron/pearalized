@@ -86,12 +86,11 @@ class Grid
 		{
 			// handle associative callback arrays
 			$n = 0;
-			$callback_columns = array_keys($callbacks);
 			foreach($this->headers_top as $column)
 			{
-				if (in_array($column, $callback_columns))
+				if (isset($callbacks[$column]))
 					$this->callbacks[$n] = $callbacks[$column];
-
+				
 				$n++;
 			}
 

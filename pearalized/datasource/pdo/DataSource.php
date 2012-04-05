@@ -37,7 +37,11 @@ class DataSource implements DataSourceInterface
 		$this->sql_affected = 0;
 	}
 	
-	public function prepare($statement){}
+	public function prepare($statement)
+	{
+		$pdo_statement = $this->pdo->prepare($statement);
+		return new Result($pdo_statement);
+	}
 	
 	public function execute($statement, $params = null)
 	{
