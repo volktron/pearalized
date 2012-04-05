@@ -12,7 +12,7 @@ use PDOException;
 
 class DataSource implements DataSourceInterface
 { 
-	private $pdo;
+	public $pdo;
 	
 	public $affected;
 	
@@ -40,7 +40,7 @@ class DataSource implements DataSourceInterface
 	public function prepare($statement)
 	{
 		$pdo_statement = $this->pdo->prepare($statement);
-		return new Result($pdo_statement);
+		return new Statement($pdo_statement);
 	}
 	
 	public function execute($statement, $params = null)
