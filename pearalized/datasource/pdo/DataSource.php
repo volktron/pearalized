@@ -12,7 +12,7 @@ use PDOException;
 
 class DataSource implements DataSourceInterface
 { 
-	public $pdo;
+	private $pdo;
 	
 	public $affected;
 	
