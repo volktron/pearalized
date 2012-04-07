@@ -9,19 +9,19 @@
 namespace pearalized\elements;
 class Grid
 {
-	private $data;			// 2d array of data
-	private $headers_top;	// 1d array of header strings
-	private $headers_left;	// 1d array of header strings
+	protected $data;			// 2d array of data
+	protected $headers_top;	// 1d array of header strings
+	protected $headers_left;	// 1d array of header strings
 
-	private $callbacks;
-	private $args;
+	protected $callbacks;
+	protected $args;
 
-	private $using_statement;
-	private $using_statement_headers;
+	protected $using_statement;
+	protected $using_statement_headers;
 
-	private $db;
+	protected $db;
 
-	private $css = array(	// kv array of css classes
+	protected $css = array(	// kv array of css classes
 		"table" 			=> "grid_table",
 		"row" 				=> "grid_row",
 		"cell" 				=> "grid_cell",
@@ -30,7 +30,7 @@ class Grid
 		"header_cell_left"	=> "grid_header_cell_left"
 	);
 
-	public function __construct(&$data=null, $headers_top=false, $array=true)
+	public function __construct(&$data=null, $name = null, $headers_top=false, $array=true)
 	{
 		if ($data != null)
 			bind_data($data, $headers_top, $array);
@@ -130,7 +130,7 @@ class Grid
 	}
 
 	// Executes the query
-	private function execute_statement()
+	protected function execute_statement()
 	{
 		$this->data = $this->db->execute($this->statement)->fetch_all();
 
