@@ -10,7 +10,8 @@ namespace pearalized\elements;
 class Grid
 {
 	protected $data;			// 2d array of data
-	protected $headers_top;	// 1d array of header strings
+	protected $name;
+	protected $headers_top;		// 1d array of header strings
 	protected $headers_left;	// 1d array of header strings
 
 	protected $callbacks;
@@ -256,6 +257,8 @@ class Grid
 			echo 'PEARALIZED ERROR: No data or statement provided'; die;
 		}
 
+		if (isset($params['name']))
+			$this->name = $params['name'];
 		if (isset($params['headers_top']))
 			$this->bind_headers($params['headers_top']);
 		if (isset($params['headers_left']))
