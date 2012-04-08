@@ -11,7 +11,7 @@ class DataSource implements DataSourceInterface
 { 
 	private $sql_link;
 	
-	public $sql_affected;
+	public $affected;
 	
 	public function __construct($params)
 	{	
