@@ -10,7 +10,16 @@ class SQLTreeTest extends PHPUnit_Framework_TestCase
 		$this->assertTrue(is_array($tokens) && sizeof($tokens) == 4);
 		
 		$tokens = p("lib > SQLTree")->sql("SELECT a,b,c FROM d")->tokens();		
+		$this->assertTrue(is_array($tokens) && sizeof($tokens) == 8);
+		
+		$tokens = p("lib > SQLTree")->sql("SELECT 'a b' as c FROM d")->tokens();		
 		$this->assertTrue(is_array($tokens) && sizeof($tokens) == 6);
+
+		$tokens = p("lib > SQLTree")->sql("SELECT \"a ' b\" as c FROM d")->tokens();		
+		$this->assertTrue(is_array($tokens) && sizeof($tokens) == 6);
+
+		$tokens = p("lib > SQLTree")->sql("SELECT (a b) as c FROM d")->tokens();		
+		$this->assertTrue(is_array($tokens) && sizeof($tokens) == 9);
 	}
 	
 	public function test_select_value_callback()
@@ -21,9 +30,10 @@ class SQLTreeTest extends PHPUnit_Framework_TestCase
 		};
 	
 		// The first assertion is to verify the simplest working implementation
-		$tree = p("lib > SQLTree")->sql("SELECT");
+		$tree = p("lib > SQLTree")->sql("SELECT a FROM b");
 		$tree->callbacks(["select_values" => $function]);
 		
+		//print_r($tree->tokens());
 		$this->assertEquals(
 			"SELECT f(a) FROM b",
 			$tree->out()

@@ -11,17 +11,37 @@ namespace pearalized\lib;
 class SQLNode
 {
 	protected $type;
-	protected $label;
+	protected $text;
 	
-	protected $children;
+	public $parent_node;
+	public $children = [];
+	
+	public function __construct($type, $text, $parent_node = null)
+	{
+		$this->type			= $type;
+		$this->text			= $text;
+		$this->parent_node	= $parent_node;
+	}
 	
 	// Make sure we clean up properly...
 	public function __destruct()
 	{
-		foreach($children as $child)
+		foreach($this->children as $child)
 		{
 			unset($child);
 		}
+	}
+	
+	public function __toString()
+	{
+		$out = $this->text;
+		
+		foreach($this->children as $child)
+		{
+			$out .= ' '.$child;
+		}
+		
+		return $out;
 	}
 }
 
@@ -30,6 +50,8 @@ class SQLTree
 	protected $sql;
 	protected $callbacks;
 	protected $tokens;
+	
+	protected $root;
 
 	protected $blocks = [	
 		"select",
@@ -62,6 +84,15 @@ class SQLTree
 		"character set"
 	];
 
+	protected $functions = [
+		
+	];
+	
+	public function __construct()
+	{
+		$this->root = new SQLNode('root','');
+	}
+	
 	public function sql($sql)
 	{
 		$this->sql = $sql;
@@ -76,7 +107,41 @@ class SQLTree
 	
 	protected function tokenize()
 	{
-		$this->tokens = s($this->sql)->split("/[\s,]+/");
+		$tmp = s($this->sql)->split("/([\s,\'\"()]+)/", true);
+		
+		$this->tokens = [];
+		$s_quoted = false;
+		$d_quoted = false;
+		$buffer = "";
+		foreach($tmp as $tok)
+		{
+			if (strlen(trim($tok)) > 0 || $s_quoted || $d_quoted)
+			{
+				if (!$d_quoted)
+					if (trim($tok) == "'")
+					{
+						$s_quoted = !$s_quoted;
+						$tok = trim($tok);
+					}
+				
+				if (!$s_quoted)
+					if (trim($tok) == "\"")
+					{
+						$d_quoted = !$d_quoted;
+						$tok = trim($tok);
+					}
+				
+				if ($s_quoted || $d_quoted)
+					$buffer .= $tok;
+				else
+				{
+					$this->tokens[] = $buffer.$tok;
+					$buffer = "";
+				}
+			}
+		}
+		
+		return $this;
 	}
 	
 	public function tokens()
@@ -89,12 +154,30 @@ class SQLTree
 	
 	protected function to_tree()
 	{
+		$last_node = $this->root;
 		
+		for($i = 0; $i < sizeof($this->tokens); $i++)
+		{
+			if ( in_array(s($this->tokens[$i])->lower(), $this->blocks) )
+				$last_node = $last_node->parent_node;
+			
+			$new_node = new SQLNode(
+							"node",
+							$this->tokens[$i],
+							$last_node);
+							
+			$this->root->children[] = $new_node;
+			
+			if ( in_array(s($this->tokens[$i])->lower(), $this->blocks) )
+				$last_node = $new_node;
+		}
+		
+		return $this;
 	}
 	
 	public function out()
 	{
-		return '';
+		return ''.$this->tokenize()->to_tree()->root;
 	}
 	
 	public function setup($params)
