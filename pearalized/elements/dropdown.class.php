@@ -36,7 +36,7 @@ class Dropdown
 	{
 		$out = "<select id='".$this->name."'>";
 		
-		foreach ($data as $name => $label)
+		foreach ($this->data as $name => $label)
 		{
 			$out .= "<option name='$name'>$label</option>";
 		}
@@ -56,10 +56,10 @@ class Dropdown
 	*/	
 	public function setup($params)
 	{
-		if (isset $params['data'])
+		if (isset($params['data']) )
 			$this->data = $params['data'];
 			
-		if (isset $params['name'])
+		if (isset($params['name']) )
 			$this->name = $params['name'];
 			
 		return $this;
