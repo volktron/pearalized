@@ -52,6 +52,12 @@ class Dropdown
 		return $this;
 	}
 	
+	// Set the name
+	public function name($name)
+	{
+		$this->name = $name;
+	}
+	
 	// Executes the query
 	protected function execute_statement()
 	{
