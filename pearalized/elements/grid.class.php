@@ -233,8 +233,10 @@ class Grid
 	* 		$params - associative array $key => $value
 	*				Keys					Values
 	*				'data'					2D array of data for the grid
-	*		OR		'statement'				Query to be used for data
+	*		OR		'statement'				Statement to be used to procure data
 	*				'datasource'			Datasource Object
+	*
+	*				'name'					(Optional) name of the grid
 	*				'statement_headers'		(Optional) default value true
 	*				'statement_now'			(Optional) default value true
 	*				'headers_top'			(Optional) Column headers for the grid
@@ -259,10 +261,13 @@ class Grid
 
 		if (isset($params['name']))
 			$this->name = $params['name'];
+			
 		if (isset($params['headers_top']))
 			$this->bind_headers($params['headers_top']);
+			
 		if (isset($params['headers_left']))
 			$this->bind_headers_left($params['headers_left']);
+			
 		if (isset($params['callbacks']))
 			$this->assign_callbacks($params['callbacks']);
 

@@ -86,16 +86,22 @@ class Dropdown
 	* One call dropdown setup function
 	* @params
 	* 		$params - associative array $key => $value
-	*				Keys					Values
-	*				'data'					2D array of data for the grid
-	*				'name'					name of the dropdown
+	*			Keys					Values
+	*			'data'					2D array of data for the grid
+	*	OR		'statement'				Statement to be used to procure data	
+	*			'datasource'			Datasource
+	*
+	*			'name'					(optional) name of the dropdown
 	*/	
 	public function setup($params)
 	{
 		if (isset($params['data']) )
 			$this->data($params['data']);
-		else if (isset($params['statement']))
-			$this->statement($params['statement']);
+		else if (	isset($params['statement']) &&
+					isset($params['datasource']))
+			$this->statement($params['datasource'],
+							 $params['statement'],
+							(isset($params['statement_now']) ? $params['statement_now'] : true));
 		else
 			echo 'PEARALIZED ERROR: No data or statement provided'; die;
 			
