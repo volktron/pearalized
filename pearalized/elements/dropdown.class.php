@@ -103,8 +103,10 @@ class Dropdown
 							 $params['statement'],
 							(isset($params['statement_now']) ? $params['statement_now'] : true));
 		else
+		{
 			echo 'PEARALIZED ERROR: No data or statement provided'; die;
-			
+		}
+		
 		if (isset($params['name']) )
 			$this->name = $params['name'];
 			
