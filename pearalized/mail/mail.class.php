@@ -35,7 +35,7 @@ class Mail
 			{
 				if(!preg_match('/^([a-zA-Z0-9])+([a-zA-Z0-9\._-])*@([a-zA-Z0-9_-])+([a-zA-Z0-9\._-]+)+$/',$address) ) 
 				{
-					echo "PEARALIZED ERROR: invalid email address".$address;die;
+					throw new Exception("PEARALIZED: invalid email address - ".$address);
 				}
 			}
 			return true;
@@ -45,7 +45,7 @@ class Mail
 		{
 			if(!preg_match('/^([a-zA-Z0-9])+([a-zA-Z0-9\._-])*@([a-zA-Z0-9_-])+([a-zA-Z0-9\._-]+)+$/',$addresses) ) 
 			{
-				echo "PEARALIZED ERROR: invalid email address".$addresses;die;
+				throw new Exception("PEARALIZED: invalid email address - ".$addresses);
 			}
 			return true;
 		}

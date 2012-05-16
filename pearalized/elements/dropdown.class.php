@@ -104,7 +104,7 @@ class Dropdown
 							(isset($params['statement_now']) ? $params['statement_now'] : true));
 		else
 		{
-			echo 'PEARALIZED ERROR: No data or statement provided'; die;
+			throw new Exception('PEARALIZED: No data or statement provided');
 		}
 		
 		if (isset($params['name']) )

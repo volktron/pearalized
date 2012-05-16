@@ -23,12 +23,12 @@ class DataSource implements DataSourceInterface
 		);
 		if (!$this->sql_link)
 		{
-			error_log("Can't connect to the database: ".mysqli_error());
+			throw new Exception("PEARALIZED: Can't connect to the database - ".mysql_error());
 		}
 
 		if (!mysqli_select_db($this->sql_link,$params['database']))
 		{
-			echo "database unavailable";
+			throw new Exception("PEARALIZED: Database unavailable");
 		}
 
 		$this->sql_result 	= 0;
@@ -44,7 +44,7 @@ class DataSource implements DataSourceInterface
 		
 		if (!$sql_result)
 		{
-			error_log(mysqli_error($this->sql_link));
+			throw new Exception("PEARALIZED: ".mysqli_error($this->sql_link));
 		}
 		
 		return new Result($sql_result);

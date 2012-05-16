@@ -29,8 +29,7 @@ class DataSource implements DataSourceInterface
 		}
 		catch (PDOException $e)
 		{
-			error_log("Can't connect to the database: ".$e->getMessage());
-			die($e->getMessage());
+			throw new Exception("PEARALIZED: Can't connect to the database - ".$e->getMessage());
 		}
 
 		$this->sql_result 	= 0;
@@ -49,7 +48,7 @@ class DataSource implements DataSourceInterface
 		
 		if (!$pdo_statement)
 		{
-			error_log($this->pdo->errorInfo());
+			throw new Exception("PEARALIZED: ".$this->pdo->errorInfo());
 		}
 		
 		$this->affected = $pdo_statement->rowCount();
