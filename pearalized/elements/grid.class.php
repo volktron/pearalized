@@ -139,6 +139,41 @@ class Grid
 				$this->bind_headers_top( array_keys($this->data[0]) );
 	}
 
+	// Output grid data in json format
+	public function json()
+	{
+		$out = [];
+		
+		if(is_array($this->headers_top))
+			$out['headers'] = $this->headers_top;
+		if(is_array($this->headers_left))
+			$out['headers_left'] = $this->headers_left;
+		
+		if(is_array($this->data))
+		{
+			// Data
+			for($i = 0; $i < count($this->data); $i++)
+			{				
+				$row = $this->data[$i];
+				$data = ['record' => $row];
+				
+				$c = 0;
+				foreach($row as $cell)
+				{
+					$data['index'] = $this->headers_top[$c];
+					// Is there a callback function for this column?
+					if (isset($this->callbacks[$c]))
+						$cell = $this->callbacks[$c]($data, $this->args);
+
+					$out['data'][$i][$this->headers_top[$c]] = $cell;
+					$c++;
+				}
+			}
+		}	
+		
+		return json_encode($out);
+	}
+	
 	// draw the grid
 	public function html()
 	{
