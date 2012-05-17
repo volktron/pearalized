@@ -67,6 +67,13 @@ class Dropdown
 				$this->bind_headers_top( array_keys($this->data[0]) );
 	}
 	
+	// output json
+	// I'm not sure why anyone would ever need this, but it's easy to implement
+	public function json()
+	{
+		return json_encode($this->data);
+	}
+	
 	// draw the dropdown
 	public function html()
 	{
