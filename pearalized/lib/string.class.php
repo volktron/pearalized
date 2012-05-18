@@ -92,12 +92,21 @@ class PString
 	}
 	
 	// Combine str_split and preg_split
-	public function split($var = 1, $limit = -1, $flags = 0)
+	public function split($var = 1, $delims = false, $offsets = false, $limit = -1)
 	{
+		
 		if (is_int($var))
 			return str_split($this->val, $var);
 		else
+		{
+			$flags = 0;
+		
+			if($delims)
+				$flags |= PREG_SPLIT_DELIM_CAPTURE;
+			if($offsets)
+				$flags |= PREG_SPLIT_OFFSET_CAPTURE;
 			return preg_split($var, $this->val, $limit, $flags);
+		}
 	}
 	
 	// explode a string into array

@@ -139,6 +139,41 @@ class Grid
 				$this->bind_headers_top( array_keys($this->data[0]) );
 	}
 
+	// Output grid data in json format
+	public function json()
+	{
+		$out = [];
+		
+		if(is_array($this->headers_top))
+			$out['headers'] = $this->headers_top;
+		if(is_array($this->headers_left))
+			$out['headers_left'] = $this->headers_left;
+		
+		if(is_array($this->data))
+		{
+			// Data
+			for($i = 0; $i < count($this->data); $i++)
+			{				
+				$row = $this->data[$i];
+				$data = ['record' => $row];
+				
+				$c = 0;
+				foreach($row as $cell)
+				{
+					$data['index'] = $this->headers_top[$c];
+					// Is there a callback function for this column?
+					if (isset($this->callbacks[$c]))
+						$cell = $this->callbacks[$c]($data, $this->args);
+
+					$out['data'][$i][$this->headers_top[$c]] = $cell;
+					$c++;
+				}
+			}
+		}	
+		
+		return json_encode($out);
+	}
+	
 	// draw the grid
 	public function html()
 	{
@@ -233,8 +268,10 @@ class Grid
 	* 		$params - associative array $key => $value
 	*				Keys					Values
 	*				'data'					2D array of data for the grid
-	*		OR		'statement'				Query to be used for data
+	*		OR		'statement'				Statement to be used to procure data
 	*				'datasource'			Datasource Object
+	*
+	*				'name'					(Optional) name of the grid
 	*				'statement_headers'		(Optional) default value true
 	*				'statement_now'			(Optional) default value true
 	*				'headers_top'			(Optional) Column headers for the grid
@@ -254,15 +291,18 @@ class Grid
 									(isset($params['statement_now']) ? $params['statement_now'] : true));
 		else
 		{
-			echo 'PEARALIZED ERROR: No data or statement provided'; die;
+			throw new Exception('PEARALIZED: No data or statement provided');
 		}
 
 		if (isset($params['name']))
 			$this->name = $params['name'];
+			
 		if (isset($params['headers_top']))
 			$this->bind_headers($params['headers_top']);
+			
 		if (isset($params['headers_left']))
 			$this->bind_headers_left($params['headers_left']);
+			
 		if (isset($params['callbacks']))
 			$this->assign_callbacks($params['callbacks']);
 
