@@ -13,14 +13,16 @@ class Mail
 	
 	private $message;			// message of the email 
 	private $fullBody;			// message with attachment of the email 
-	private $attachments; 	// array of paths of files as attachments
+	private $attachments = ''; 	
 	
 	private $email_headers;	// array containing mail headers
 	private $headers;		// final email headers
+	
+	private $boundary;
 
 	public function Mail()
 	{
-		
+		$this->boundary = md5(time());
 	}
 	
 	/*
@@ -136,12 +138,6 @@ class Mail
 	*/
 	public function attach($fileInfo)
 	{
-		$boundary = md5(time());
-		$this->headers['Content-Type'] = "multipart/mixed;\n boundary=\"$boundary\"";
-		
-		$this->fullBody = "This is a multi-part message in MIME format.\n--$boundary\n";
-		$this->fullBody .= "Content-Type: text/plain; charset=\"iso-8859-1\"\nContent-Transfer-Encoding: 7bit\n\n" . $this->message ."\n";
-		
 		foreach($fileInfo as $file)
 		{
 			if(isset($file['path']))
@@ -160,10 +156,10 @@ class Mail
 			}
 			
 			$data = chunk_split(base64_encode($data));
-			$this->fullBody .= "Content-Type: {\"application/octet-stream\"};\n" . " name=".$file['name']."\n" . 
+			$this->attachments .= "Content-Type: {\"application/octet-stream\"};\n" . " name=".$file['name']."\n" . 
 								"Content-Disposition: attachment;\n" . " filename=".$file['name']."\n" . 
 								"Content-Transfer-Encoding: base64\n\n" . $data . "\n\n";
-			$this->fullBody .= "--$boundary\n";
+			$this->attachments .= "--$boundary\n";
 		}
 							
 	}
@@ -178,6 +174,20 @@ class Mail
 		$this->email_headers['CC'] = implode(",", $this->send_cc);
 		$this->email_headers['BCC'] = implode(",", $this->send_bcc);
 		
+		$this->headers['Content-Type'] = "multipart/mixed;\n boundary=\"$this->boundary\"";
+		
+		if($this->attachments != '')
+		{
+			$this->fullBody = "This is a multi-part message in MIME format.\n--$boundary\n";
+			$this->fullBody .= "Content-Type: text/plain; charset=\"iso-8859-1\"\n";
+			$this->fullBody .= "Content-Transfer-Encoding: 7bit\n\n" . $this->message ."\n";
+			$this->fullBody .= $this->attachments;
+		}
+		else
+		{
+			$this->fullBody = $this->message;
+		}
+		
 		//prepare header
 		foreach($this->email_headers as $k=>$v)
 		{
@@ -186,7 +196,7 @@ class Mail
 		
 		$this->send_to = implode(",", $this->send_to);
 		//send email
-		$res = @mail($this->send_to, $this->email_headers['Subject'], $this->message, $this->headers);		
+		$res = @mail($this->send_to, $this->email_headers['Subject'], $this->fullBody, $this->headers);		
 	}
 	
 	
