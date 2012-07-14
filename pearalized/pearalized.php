@@ -6,10 +6,21 @@
 
 require_once(PEARALIZED_PATH . "/pearalized/lib/string.class.php");
 
+$p_shelf = [];
+
 function s($string)
 {
 	return new pearalized\lib\PString($string);
 } 
+
+function o($name, $obj = false)
+{
+	global $p_shelf;
+	if ($obj)
+		$p_shelf[$name] = $obj;
+	
+	return $p_shelf[$name];
+}
 
 function p($string)
 {
