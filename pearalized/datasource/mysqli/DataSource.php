@@ -44,7 +44,10 @@ class DataSource implements DataSourceInterface
 		$sql_result = mysqli_query($this->sql_link, $statement);
 		$time_total = microtime(true) - $time_start;
 		
-		$this->profiling[] = ['time' => $time_total, 'rows' => mysqli_affected_rows($this->sql_link)];
+		$this->profiling[] = [
+			'time' => $time_total, 
+			'rows' => mysqli_affected_rows($this->sql_link)
+		];
 				
 		if (!$sql_result)
 		{
