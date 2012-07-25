@@ -27,7 +27,8 @@ function p($string)
 
 	// For the most important stuff in Pearless to be accessed easily
 	$factories = array(
-		'datasource' 	=> 'pearalized\datasource\DataSourceFactory'
+		'datasource' 	=> 'pearalized\datasource\DataSourceFactory',
+		'cachesource'	=> 'pearalized\cachesource\CacheSourceFactory'
 	);
 
 	$classes = array(
