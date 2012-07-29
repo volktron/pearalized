@@ -11,8 +11,8 @@ class DataSource implements DataSourceInterface
 { 
 	private $sql_link;
 	
-	public $num_executed;	// Number of queries performed
-	public $profiling = [];	// Query profiling information
+	public $num_executed;			// Number of queries performed
+	public $profiling = array();	// Query profiling information
 	
 	public function __construct($params)
 	{
@@ -44,10 +44,10 @@ class DataSource implements DataSourceInterface
 		$sql_result = mysql_query($statement);
 		$time_total = microtime(true) - $time_start;
 		
-		$this->profiling[] = [
+		$this->profiling[] = array(
 			'time' => $time_total, 
 			'rows' => mysql_affected_rows($this->sql_link)
-		];
+		);
 		
 		if (!$sql_result)
 		{

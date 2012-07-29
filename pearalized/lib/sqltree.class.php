@@ -14,7 +14,7 @@ class SQLNode
 	protected $text;
 	
 	public $parent_node;
-	public $children = [];
+	public $children = array();
 	
 	public function __construct($type, $text, $parent_node = null)
 	{
@@ -53,7 +53,7 @@ class SQLTree
 	
 	protected $root;
 
-	protected $blocks = [	
+	protected $blocks = array(	
 		"select",
 		"from",
 		"where",
@@ -63,9 +63,9 @@ class SQLTree
 		"limit",
 		"procedure",
 		"into outfile"	
-	];
+	);
 	
-	protected $attributes = [
+	protected $attributes = array(
 		"all",
 		"distinct",
 		"distrinctrow",
@@ -82,11 +82,9 @@ class SQLTree
 		"with rollup",
 		"offset",
 		"character set"
-	];
+	);
 
-	protected $functions = [
-		
-	];
+	protected $functions = array();
 	
 	public function __construct()
 	{
@@ -109,7 +107,7 @@ class SQLTree
 	{
 		$tmp = s($this->sql)->split("/([\s,\'\"()]+)/", true);
 		
-		$this->tokens = [];
+		$this->tokens = array();
 		$s_quoted = false;
 		$d_quoted = false;
 		$buffer = "";
