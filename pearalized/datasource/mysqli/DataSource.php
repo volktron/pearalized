@@ -22,6 +22,7 @@ class DataSource implements DataSourceInterface
 			$params['user'],
 			$params['pass']
 		);
+		
 		if (!$this->sql_link)
 		{
 			throw new \Exception("PEARALIZED: Can't connect to the database - ".mysql_error());

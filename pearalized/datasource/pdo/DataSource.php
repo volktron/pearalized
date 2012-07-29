@@ -14,7 +14,8 @@ class DataSource implements DataSourceInterface
 { 
 	private $pdo;
 	
-	public $affected;
+	public $num_executed;			// Number of queries performed
+	public $profiling = array();	// Query profiling information
 	
 	public function __construct($params)
 	{	
@@ -22,18 +23,17 @@ class DataSource implements DataSourceInterface
 		try
 		{
 			$this->pdo = new PDO(
-				$params['host'],
+				$params['driver'].':dbname='.$params['database'].';host='.$params['host'],
 				$params['user'],
 				$params['pass']
 			);
 		}
 		catch (PDOException $e)
 		{
-			throw new Exception("PEARALIZED: Can't connect to the database - ".$e->getMessage());
+			throw new \Exception("PEARALIZED: Can't connect to the database - ".$e->getMessage());
 		}
 
 		$this->sql_result 	= 0;
-		$this->sql_affected = 0;
 	}
 	
 	public function prepare($statement)
@@ -44,8 +44,15 @@ class DataSource implements DataSourceInterface
 	
 	public function execute($statement, $params = null)
 	{
+		$time_start = microtime(true);
 		$pdo_statement = $this->pdo->query($statement);
+		$time_total = microtime(true) - $time_start;
 		
+		$this->profiling[] = array(
+			'time' => $time_total, 
+			'rows' => $pdo_statement->rowCount()
+		);
+				
 		if (!$pdo_statement)
 		{
 			throw new Exception("PEARALIZED: ".$this->pdo->errorInfo());
