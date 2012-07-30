@@ -6,7 +6,7 @@
 
 require_once(PEARALIZED_PATH . "/pearalized/lib/string.class.php");
 
-$p_shelf = [];
+$p_shelf = array();
 
 function s($string)
 {

@@ -11,51 +11,64 @@ use PDO;
 use PDOException;
 
 class DataSource implements DataSourceInterface
-{ 
+{
 	private $pdo;
-	
-	public $affected;
-	
+
+	public $num_executed;			// Number of queries performed
+	public $profiling = array();	// Query profiling information
+
 	public function __construct($params)
-	{	
-		// Connect to the database
+	{
 		try
 		{
 			$this->pdo = new PDO(
-				$params['host'],
+				$params['driver'].':dbname='.$params['database'].';host='.$params['host'],
 				$params['user'],
 				$params['pass']
 			);
+			
+			if ($params['driver'] === 'mysql')
+			{
+				$this->pdo->setAttribute(
+					PDO::ATTR_EMULATE_PREPARES, 
+					false || (isset($params['emulate_prepares']) && $params['emulate_prepares']));
+			}
 		}
 		catch (PDOException $e)
 		{
-			throw new Exception("PEARALIZED: Can't connect to the database - ".$e->getMessage());
+			throw new \Exception("PEARALIZED: Can't connect to the database - ".$e->getMessage());
 		}
 
 		$this->sql_result 	= 0;
-		$this->sql_affected = 0;
 	}
-	
+
 	public function prepare($statement)
 	{
 		$pdo_statement = $this->pdo->prepare($statement);
 		return new Statement($pdo_statement);
 	}
-	
+
 	public function execute($statement, $params = null)
 	{
+		$time_start = microtime(true);
 		$pdo_statement = $this->pdo->query($statement);
+		$time_total = microtime(true) - $time_start;
 		
+		$this->profiling[] = array(
+			'time' => $time_total, 
+			'rows' => $pdo_statement->rowCount()
+		);
+				
 		if (!$pdo_statement)
 		{
 			throw new Exception("PEARALIZED: ".$this->pdo->errorInfo());
 		}
-		
+
 		$this->affected = $pdo_statement->rowCount();
 		return new Result($pdo_statement);
 	}
 
-	public function last_insert_id() 
+	public function last_insert_id()
 	{
 		return $this->pdo->lastInsertId();
 	}

@@ -18,8 +18,8 @@ defined('PEARALIZED_PATH') or define('PEARALIZED_PATH', $pearalized_path);
 require_once(PEARALIZED_PATH . "/pearalized/pearalized.php");
 
 $db_configuration = array(
-	'type' => 'mysqli',
-	'host' => 'localhost',
+	'type' => 'mysql',
+	'host' => 'freya',
 	'user' => 'root',
 	'pass' => 'root',
 	'database' => 'test'
