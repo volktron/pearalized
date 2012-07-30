@@ -72,7 +72,7 @@ class DataSource implements DataSourceInterface
 		if	(!$result)
 			$result = $this->sql_result;
 		
-		$data = array();
+		$data = [];
 		$n = 0;
 		while ($row = $this->sql_row($result))
 			$data[$n++] = $row;
@@ -82,7 +82,7 @@ class DataSource implements DataSourceInterface
 
 	public function sql_last_id() 
 	{
-		return mysql_last_insert_id();
+		return mysql_insert_id();
 	}
 
 	function sql_sanitize(&$data)
