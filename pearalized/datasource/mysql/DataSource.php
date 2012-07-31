@@ -72,7 +72,7 @@ class DataSource implements DataSourceInterface
 		if	(!$result)
 			$result = $this->sql_result;
 		
-		$data = [];
+		$data = array();
 		$n = 0;
 		while ($row = $this->sql_row($result))
 			$data[$n++] = $row;
