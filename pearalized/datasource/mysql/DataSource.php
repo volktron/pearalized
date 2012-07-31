@@ -82,7 +82,7 @@ class DataSource implements DataSourceInterface
 
 	public function sql_last_id() 
 	{
-		return mysql_last_insert_id();
+		return mysql_insert_id();
 	}
 
 	function sql_sanitize(&$data)
