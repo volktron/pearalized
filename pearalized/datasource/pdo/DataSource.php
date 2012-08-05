@@ -53,17 +53,17 @@ class DataSource implements DataSourceInterface
 		$time_start = microtime(true);
 		$pdo_statement = $this->pdo->query($statement);
 		$time_total = microtime(true) - $time_start;
+						
+		if (!$pdo_statement)
+		{
+			throw new \Exception("PEARALIZED: ".print_r($this->pdo->errorInfo(),true));
+		}
 		
 		$this->profiling[] = array(
 			'time' => $time_total, 
 			'rows' => $pdo_statement->rowCount()
 		);
-				
-		if (!$pdo_statement)
-		{
-			throw new Exception("PEARALIZED: ".$this->pdo->errorInfo());
-		}
-
+		
 		$this->affected = $pdo_statement->rowCount();
 		return new Result($pdo_statement);
 	}
