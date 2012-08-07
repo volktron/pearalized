@@ -96,6 +96,8 @@ class DataSource implements DataSourceInterface
 		{
 			$this->sanitize($element);
 		}
+		
+		return $data;
 	}
 }
 

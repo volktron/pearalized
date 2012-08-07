@@ -75,6 +75,8 @@ class DataSource implements DataSourceInterface
 		{
 			$this->sql_sanitize($element);
 		}
+		
+		return $data;
 	}
 }
 
