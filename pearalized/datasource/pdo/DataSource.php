@@ -76,6 +76,7 @@ class DataSource implements DataSourceInterface
 	public function sanitize(&$data)
 	{
 		// No need for this in PDO
+		return $data;
 	}
 }
 
