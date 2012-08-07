@@ -60,14 +60,14 @@ class DataSource implements DataSourceInterface
 		}
 	}
 
-	public function sql_row($result = false)
+	public function fetch_row($result = false)
 	{
 		if (!$result)
 			return mysql_fetch_assoc($this->sql_result);
 		return mysql_fetch_assoc($result);
 	}
 
-	public function sql_all($result = false)
+	public function fetch_all($result = false)
 	{
 		if	(!$result)
 			$result = $this->sql_result;
@@ -80,12 +80,12 @@ class DataSource implements DataSourceInterface
 		return $data;
 	}
 
-	public function sql_last_id() 
+	public function last_insert_id() 
 	{
 		return mysql_insert_id();
 	}
 
-	function sql_sanitize(&$data)
+	public function sanitize(&$data)
 	{
 		if (!is_array($data))
 		{
@@ -94,7 +94,7 @@ class DataSource implements DataSourceInterface
 		
 		foreach ($data as $element)
 		{
-			$this->sql_sanitize($element);
+			$this->sanitize($element);
 		}
 	}
 }
