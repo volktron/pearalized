@@ -4,7 +4,7 @@
  *	@author Henrik Volckmer
  */
 
-require_once(PEARALIZED_PATH . "/pearalized/lib/string.class.php");
+require_once(PEARALIZED_PATH . "/pearalized/lib/string.php");
 
 $p_shelf = array();
 
@@ -50,7 +50,7 @@ function p($string)
 	{
 		$path = str_replace("\\","/",$classes[$string]);
 		$path = str_replace(" ","",$path);
-		$path = str_replace(">","/",$path).".class.php";
+		$path = str_replace(">","/",$path).".php";
 		$path = PEARALIZED_PATH . "/".$path;
 
 		require_once ($path);
@@ -65,7 +65,7 @@ function p($string)
 	$path = str_replace(" ","",$path);
 	$path = "pearalized/".str_replace(">","/",$path);
 
-	$path = PEARALIZED_PATH . "/".$path.".class.php";
+	$path = PEARALIZED_PATH . "/".$path.".php";
 
 	require_once($path);
 	return new $class();
