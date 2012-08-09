@@ -4,7 +4,12 @@
  *	@author Henrik Volckmer
  */
 
-require_once(PEARALIZED_PATH . "/pearalized/lib/string.php");
+//require_once(PEARALIZED_PATH . "/pearalized/lib/string.php");
+
+spl_autoload_register(function($class_name)
+{
+	include_once PEARALIZED_PATH.'/'.str_replace('\\', '/', strtolower($class_name)).'.php';
+});
 
 $p_shelf = array();
 
