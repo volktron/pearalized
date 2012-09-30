@@ -7,12 +7,11 @@
 namespace pearalized\datasource\mysqli;
 
 use pearalized\datasource\DataSourceInterface;
-class DataSource implements DataSourceInterface
+class DataSource extends \pearalized\datasource\DataSource implements DataSourceInterface
 { 
 	private $sql_link;
 	
-	public $num_executed;			// Number of queries performed
-	public $profiling = array();	// Query profiling information
+	protected $num_executed;			// Number of queries performed
 	
 	public function __construct($params)
 	{	
@@ -70,12 +69,13 @@ class DataSource implements DataSourceInterface
 		{
 			$data = mysqli_real_escape_string($this->sql_link, $data);
 		}
-		
-		foreach ($data as $element)
+		else
 		{
-			$this->sql_sanitize($element);
+			foreach ($data as $element)
+			{
+				$this->sanitize($element);
+			}
 		}
-		
 		return $data;
 	}
 }
