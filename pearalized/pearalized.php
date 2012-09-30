@@ -42,23 +42,10 @@ function p($string)
 
 	if (isset($factories[$string]))
 	{
-		$path = str_replace("\\","/",$factories[$string]);
-		$path = str_replace(" ","",$path);
-		$path = str_replace(">","/",$path).".php";
-		$path = PEARALIZED_PATH . "/".$path;
-
-		require_once ($path);
 		return new $factories[$string]();
-
 	}
 	if (isset($classes[$string]))
 	{
-		$path = str_replace("\\","/",$classes[$string]);
-		$path = str_replace(" ","",$path);
-		$path = str_replace(">","/",$path).".php";
-		$path = PEARALIZED_PATH . "/".$path;
-
-		require_once ($path);
 		return new $classes[$string]();
 	}
 
@@ -66,13 +53,6 @@ function p($string)
 	$class = str_replace(" ","",$class);
 	$class = "pearalized\\".$class;
 
-	$path = str_replace("\\","/",$string);
-	$path = str_replace(" ","",$path);
-	$path = "pearalized/".str_replace(">","/",$path);
-
-	$path = PEARALIZED_PATH . "/".$path.".php";
-
-	require_once($path);
 	return new $class();
 }
 
