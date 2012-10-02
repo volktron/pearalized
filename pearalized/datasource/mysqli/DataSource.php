@@ -11,8 +11,6 @@ class DataSource extends \pearalized\datasource\DataSource implements DataSource
 { 
 	private $sql_link;
 	
-	protected $num_executed;			// Number of queries performed
-	
 	public function __construct($params)
 	{	
 		// Connect to the database					
