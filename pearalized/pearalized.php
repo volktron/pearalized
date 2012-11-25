@@ -8,7 +8,9 @@
 
 spl_autoload_register(function($class_name)
 {
-	include_once PEARALIZED_PATH.'/'.str_replace('\\', '/', $class_name).'.php';
+	if(file_exists(PEARALIZED_PATH.'/'.str_replace('\\', '/', $class_name).'.php'))
+		require_once PEARALIZED_PATH.'/'.str_replace('\\', '/', $class_name).'.php';
+	return 0;
 });
 
 $p_shelf = array();
