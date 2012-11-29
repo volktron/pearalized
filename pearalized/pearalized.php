@@ -23,7 +23,7 @@ function s($string)
 function o($name, $obj = false)
 {
 	global $p_shelf;
-	if ($obj)
+	if ($obj !== false)
 		$p_shelf[$name] = $obj;
 	
 	return $p_shelf[$name];
