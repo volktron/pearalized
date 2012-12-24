@@ -7,12 +7,9 @@
 namespace pearalized\datasource\mysql;
 
 use pearalized\datasource\DataSourceInterface;
-class DataSource implements DataSourceInterface
+class DataSource extends \pearalized\datasource\DataSource implements DataSourceInterface
 { 
-	private $sql_link;
-	
-	public $num_executed;			// Number of queries performed
-	public $profiling = array();	// Query profiling information
+	protected $sql_link;
 	
 	public function __construct($params)
 	{

@@ -1,15 +1,20 @@
 <?php
-
 /*
  * string.test.php
  * @author Henrik Volckmer
- *
+ */
+ 
+ /**
+ * @backupGlobals disabled
+ * @backupStaticAttributes disabled
  */
  
 require_once("config.php");
 
 class StringTest extends PHPUnit_Framework_TestCase
 {
+
+
 	public function test_string_compare()
 	{
 		$this->assertTrue("hello" == s("hello"));

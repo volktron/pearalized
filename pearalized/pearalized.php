@@ -4,7 +4,14 @@
  *	@author Henrik Volckmer
  */
 
-require_once(PEARALIZED_PATH . "/pearalized/lib/string.class.php");
+//require_once(PEARALIZED_PATH . "/pearalized/lib/string.php");
+
+spl_autoload_register(function($class_name)
+{
+	if(file_exists(PEARALIZED_PATH.'/'.str_replace('\\', '/', $class_name).'.php'))
+		require_once PEARALIZED_PATH.'/'.str_replace('\\', '/', $class_name).'.php';
+	return 0;
+});
 
 $p_shelf = array();
 
@@ -16,7 +23,7 @@ function s($string)
 function o($name, $obj = false)
 {
 	global $p_shelf;
-	if ($obj)
+	if ($obj !== false)
 		$p_shelf[$name] = $obj;
 	
 	return $p_shelf[$name];
@@ -37,23 +44,10 @@ function p($string)
 
 	if (isset($factories[$string]))
 	{
-		$path = str_replace("\\","/",$factories[$string]);
-		$path = str_replace(" ","",$path);
-		$path = str_replace(">","/",$path).".php";
-		$path = PEARALIZED_PATH . "/".$path;
-
-		require_once ($path);
 		return new $factories[$string]();
-
 	}
 	if (isset($classes[$string]))
 	{
-		$path = str_replace("\\","/",$classes[$string]);
-		$path = str_replace(" ","",$path);
-		$path = str_replace(">","/",$path).".class.php";
-		$path = PEARALIZED_PATH . "/".$path;
-
-		require_once ($path);
 		return new $classes[$string]();
 	}
 
@@ -61,13 +55,6 @@ function p($string)
 	$class = str_replace(" ","",$class);
 	$class = "pearalized\\".$class;
 
-	$path = str_replace("\\","/",$string);
-	$path = str_replace(" ","",$path);
-	$path = "pearalized/".str_replace(">","/",$path);
-
-	$path = PEARALIZED_PATH . "/".$path.".class.php";
-
-	require_once($path);
 	return new $class();
 }
 

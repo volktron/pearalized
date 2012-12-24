@@ -10,13 +10,10 @@ use pearalized\datasource\DataSourceInterface;
 use PDO;
 use PDOException;
 
-class DataSource implements DataSourceInterface
+class DataSource extends \pearalized\datasource\DataSource implements DataSourceInterface
 {
-	private $pdo;
-
-	public $num_executed;			// Number of queries performed
-	public $profiling = array();	// Query profiling information
-
+	protected $pdo;
+	
 	public function __construct($params)
 	{
 		try
