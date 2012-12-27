@@ -39,7 +39,8 @@ function p($string)
 	);
 
 	$classes = array(
-		'grid'			=> 'pearalized\elements\Grid'
+		'grid'			=> 'pearalized\elements\Grid',
+		'dropdown'		=> 'pearalized\elements\Dropdown'
 	);
 
 	if (isset($factories[$string]))
