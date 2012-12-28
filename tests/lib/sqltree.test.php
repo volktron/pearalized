@@ -39,7 +39,7 @@ class SQLTreeTest extends PHPUnit_Framework_TestCase
 	
 		// The first assertion is to verify the simplest working implementation
 		$tree = p("lib > sqltree > SQLTree")->sql("SELECT a FROM b");
-		$tree->callbacks(["select_values" => $function]);
+		$tree->callbacks(array("select_values" => $function));
 		
 		//print_r($tree->tokens());
 		$this->assertEquals(
