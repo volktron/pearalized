@@ -12,15 +12,22 @@ class Dropdown
 {
 	protected $name;
 	protected $data;
+	protected $selected;
+	protected $script;
+	protected $blank_option = true;
 
 	protected $css = array(	// kv array of css classes
 		"select" 			=> "dd_select",
 		"option" 			=> "option",
 	);
 	
-	public function __construct(&$data = null, $name = null)
+	public function __construct(&$data = null, $name = null, $blank_option = true, $script = null, $selected = null)
 	{
 		$this->data = $data;
+		$this->name = $name;
+		$this->selected = $selected;
+		$this->script = $script;
+		$this->blank_option = $blank_option;
 		
 		return $this;
 	}
@@ -58,6 +65,24 @@ class Dropdown
 		$this->name = $name;
 	}
 	
+	// Set the selected option
+	public function selected($selected)
+	{
+		$this->selected = $selected;
+	}
+	
+	// Set the blank option
+	public function blank_option($blank_option)
+	{
+		$this->blank_option = $blank_option;
+	}
+	
+	// Set the script
+	public function script($blank_option)
+	{
+		$this->script = $script;
+	}
+	
 	// Executes the query
 	protected function execute_statement()
 	{
@@ -77,11 +102,19 @@ class Dropdown
 	// draw the dropdown
 	public function html()
 	{
-		$out = "<select class='".$this->css['select']."' id='".$this->name."'>";
+		$out = "<select class='".$this->css['select']."' id='".$this->name."' name='".$this->name."' ".$this->script.">";
 		
-		foreach ($this->data as $name => $label)
+		if ($this->blank_option)
 		{
-			$out .= "<option class='".$this->css['option']."' name='$name'>$label</option>";
+			$out .= "<option class='".$this->css['option']."' ></option>";
+		}
+		
+		foreach ($this->data as $option => $label)
+		{
+			if (isset($this->selected) && $this->selected == $option)
+				$out .= "<option selected='selected' class='".$this->css['option']."' value='$option'>$label</option>";
+			else
+				$out .= "<option class='".$this->css['option']."' value='$option'>$label</option>";
 		}
 		
 		$out .= "</select>";
@@ -99,6 +132,9 @@ class Dropdown
 	*			'datasource'			Datasource
 	*
 	*			'name'					(optional) name of the dropdown
+	*			'blank_option'			(optional) true/false - add blank option to dropdown
+	*			'selected'				(optional) selected value of the dropdown
+	*			'script'				(optional) javascript
 	*/	
 	public function setup($params)
 	{
@@ -116,6 +152,15 @@ class Dropdown
 		
 		if (isset($params['name']) )
 			$this->name = $params['name'];
+			
+		if (isset($params['blank_option']) )
+			$this->blank_option = $params['blank_option'];
+			
+		if (isset($params['selected']) )
+			$this->selected = $params['selected'];
+			
+		if (isset($params['script']) )
+			$this->javascript = $params['script'];
 			
 		if (isset($params['css']) )
 			$this->css($params['css']);
