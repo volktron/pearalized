@@ -8,7 +8,7 @@
 namespace pearalized\datasource;
 
 // doc_root is normally one level above htdocs.
-$doc_root = "..";
+$doc_root = ".";
 $htdocs = $doc_root."/htdocs";
 $css_path = $htdocs."/css";
 $pearalized_path = $doc_root."";
