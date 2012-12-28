@@ -1,4 +1,5 @@
-<phpunit>
+<phpunit
+	bootstrap="./config.php">
 	<testsuites>
 		<testsuite name="Pearalized">
 			<directory suffix="test.php">lib</directory>

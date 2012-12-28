@@ -8,8 +8,6 @@
  * @backupGlobals disabled
  * @backupStaticAttributes disabled
  */
- 
-require_once("config.php");
 
 class StringTest extends PHPUnit_Framework_TestCase
 {

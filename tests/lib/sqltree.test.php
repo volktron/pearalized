@@ -8,7 +8,6 @@
  * @backupGlobals disabled
  * @backupStaticAttributes disabled
  */
-require_once("config.php");
 
 class SQLTreeTest extends PHPUnit_Framework_TestCase
 {
