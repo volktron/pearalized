@@ -5,8 +5,6 @@
  *	@author Henrik Volckmer
  */
 
-namespace pearalized\datasource;
-
 // doc_root is normally one level above htdocs.
 $doc_root = ".";
 $htdocs = $doc_root."/htdocs";
@@ -22,7 +20,7 @@ $db_configuration = array(
 	'driver'	=> 'mysql',
 	'host'		=> 'localhost',
 	'user'		=> 'root',
-	'pass'		=> 'root',
+	'pass'		=> '',
 	'database'	=> 'test'
 );
 
