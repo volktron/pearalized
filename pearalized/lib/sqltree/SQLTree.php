@@ -51,6 +51,7 @@ class SQLTree
 	public function __construct()
 	{
 		$this->root = new SQLNode('root','');
+		$this->root->parent_node = $this->root;
 	}
 	
 	public function sql($sql)
@@ -126,7 +127,7 @@ class SQLTree
 							$this->tokens[$i],
 							$last_node);
 							
-			$this->root->children[] = $new_node;
+			$last_node->children[] = $new_node;
 			
 			if ( in_array(s($this->tokens[$i])->lower(), $this->blocks) )
 				$last_node = $new_node;
@@ -135,9 +136,38 @@ class SQLTree
 		return $this;
 	}
 	
+	public function apply_callbacks()
+	{
+		$this->apply_callbacks_recursive($this->root,"");
+		return $this;
+	}
+	
+	public function apply_callbacks_recursive($node, $block)
+	{
+		$current_block = $block;
+		$text_l = s($node->text)->lower();
+		if (in_array($text_l,$this->blocks))
+			$current_block = $text_l;
+		else if($current_block != $text_l)
+		{
+			if ($current_block == "select" && isset($this->callbacks['select_fields']))
+			{
+				$node->text = $this->callbacks['select_fields']($node->text);
+			}
+		}
+		foreach($node->children as $child)
+		{
+			$this->apply_callbacks_recursive($child, $current_block);
+		}
+	}
+	
 	public function out()
 	{
-		return ''.$this->tokenize()->to_tree()->root;
+		return trim($this->
+					tokenize()->
+					to_tree()->
+					apply_callbacks()->
+					root);
 	}
 	
 	public function setup($params)

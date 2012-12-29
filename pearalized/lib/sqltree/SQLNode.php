@@ -9,8 +9,8 @@ namespace pearalized\lib\sqltree;
 
 class SQLNode
 {
-	protected $type;
-	protected $text;
+	public $type;
+	public $text;
 	
 	public $parent_node;
 	public $children = array();
