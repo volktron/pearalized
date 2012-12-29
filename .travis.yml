@@ -1,5 +1,5 @@
 language: php
 php:
   - 5.3
-services: mysql
+  
 script: phpunit --configuration ./tests/tests.xml

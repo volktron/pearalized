@@ -15,17 +15,6 @@ defined('PEARALIZED_PATH') or define('PEARALIZED_PATH', $pearalized_path);
 
 require_once(PEARALIZED_PATH . "/pearalized/pearalized.php");
 
-$db_configuration = array(
-	'type'		=> 'pdo',
-	'driver'	=> 'mysql',
-	'host'		=> 'localhost',
-	'user'		=> 'root',
-	'pass'		=> '',
-	'database'	=> 'test'
-);
-
-$db = p('datasource')->setup($db_configuration);
-
 // Memcached (optional)
 $memcache_host = "localhost";
 $memcache_port = 11211;
