@@ -58,7 +58,7 @@ class DataSource extends \pearalized\datasource\DataSource implements DataSource
 
 	public function last_insert_id() 
 	{
-		return mysqli_insert_id($sql_link);
+		return mysqli_insert_id($this->sql_link);
 	}
 
 	public function sanitize(&$data)
