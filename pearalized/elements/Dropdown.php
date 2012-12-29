@@ -21,13 +21,18 @@ class Dropdown
 		"option" 			=> "option",
 	);
 	
-	public function __construct(&$data = null, $name = null, $blank_option = true, $script = null, $selected = null)
+	public function __construct(
+		&$data = null, 
+		$name = null, 
+		$blank_option = true, 
+		$javascript = null, 
+		$selected = null)
 	{
 		$this->data = $data;
 		$this->name = $name;
-		$this->selected = $selected;
-		$this->script = $script;
 		$this->blank_option = $blank_option;
+		$this->javascript = $script;
+		$this->selected = $selected;
 		
 		return $this;
 	}
@@ -43,6 +48,7 @@ class Dropdown
 	// Set the statement
 	public function statement($db, $statement, $now=true)
 	{
+		$this->db = $db;
 		$this->statement = $statement;
 		
 		if($now)
