@@ -21,20 +21,9 @@ class Dropdown
 		"option" 			=> "option",
 	);
 	
-	public function __construct(
-		&$data = null, 
-		$name = null, 
-		$blank_option = true, 
-		$javascript = null, 
-		$selected = null)
+	public function __construct($params = array())
 	{
-		$this->data = $data;
-		$this->name = $name;
-		$this->blank_option = $blank_option;
-		$this->javascript = $script;
-		$this->selected = $selected;
-		
-		return $this;
+		return $this->setup($params);
 	}
 	
 	// Set the data
