@@ -29,7 +29,7 @@ function o($name, $obj = false)
 	return $p_shelf[$name];
 }
 
-function p($string)
+function p($string, $params = null)
 {
 
 	// For the most important stuff in Pearless to be accessed easily
@@ -49,7 +49,10 @@ function p($string)
 	}
 	if (isset($classes[$string]))
 	{
-		return new $classes[$string]();
+		if($params == null)
+			return new $classes[$string]();
+		else
+			return new $classes[$string]($params);
 	}
 
 	$class = str_replace(">","\\",$string);
