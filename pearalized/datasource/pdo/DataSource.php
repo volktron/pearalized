@@ -68,7 +68,7 @@ class DataSource extends \pearalized\datasource\DataSource implements DataSource
 		);
 		
 		$this->affected = $pdo_statement->rowCount();
-		return new Result($pdo_statement);
+		return new Result($pdo_statement, $this->current_fetchmode, $this->current_fetchparam);
 	}
 
 	public function fetchmode($mode,$param = null)

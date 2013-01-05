@@ -11,20 +11,24 @@ use PDO;
 class Result implements ResultInterface
 {
 	private $result;
+	private $fetchmode;
+	private $fetchparam;
 	
-	public function __construct($result)
+	public function __construct($result, $fetchmode, $fetchparam)
 	{
 		$this->result = $result;
+		$this->fetchmode = $fetchmode;
+		$this->fetchparam = $fetchparam;
 	}
 	
 	public function fetch_row()
 	{
-		return $this->result->fetch(PDO::FETCH_ASSOC);
+		return $this->result->fetch($this->fetchmode);
 	}
 
 	public function fetch_all()
 	{
-		return $this->result->fetchAll(PDO::FETCH_ASSOC);
+		return $this->result->fetchAll($this->fetchmode);
 	}
 }
 
