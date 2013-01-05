@@ -12,6 +12,11 @@ use PDOException;
 
 class DataSource extends \pearalized\datasource\DataSource implements DataSourceInterface
 {
+	const FETCH_ASSOC		= PDO::FETCH_BOTH;
+	const FETCH_NUM			= PDO::FETCH_NUM;
+	const FETCH_CLASS		= PDO::FETCH_CLASS;
+	const FETCH_KEY_PAIR	= PDO::FETCH_KEY_PAIR;
+	
 	protected $pdo;
 	
 	public function __construct($params)
@@ -35,7 +40,8 @@ class DataSource extends \pearalized\datasource\DataSource implements DataSource
 		{
 			throw new \Exception("PEARALIZED: Can't connect to the database - ".$e->getMessage());
 		}
-
+		$this->current_fetchmode	= self::FETCH_ASSOC;
+		$this->current_fetchparam	= 0;
 		$this->sql_result 	= 0;
 	}
 
@@ -65,6 +71,12 @@ class DataSource extends \pearalized\datasource\DataSource implements DataSource
 		return new Result($pdo_statement);
 	}
 
+	public function fetchmode($mode,$param = null)
+	{
+		$this->current_fetchmode = $mode;
+		$this->current_fetchparam = $param;
+	}
+	
 	public function last_insert_id()
 	{
 		return $this->pdo->lastInsertId();
