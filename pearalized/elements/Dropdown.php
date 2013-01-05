@@ -83,8 +83,6 @@ class Dropdown
 	{
 		$this->data = $this->db->execute($this->statement)->fetch_all();
 
-		if ($this->using_statement_headers)
-				$this->bind_headers_top( array_keys($this->data[0]) );
 	}
 	
 	// output json
