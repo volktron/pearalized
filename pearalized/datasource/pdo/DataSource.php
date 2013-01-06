@@ -71,8 +71,14 @@ class DataSource extends \pearalized\datasource\DataSource implements DataSource
 		return new Result($pdo_statement, $this->current_fetchmode, $this->current_fetchparam);
 	}
 
-	public function fetchmode($mode,$param = null)
+	public function fetchmode($mode = null,$param = null)
 	{
+		if ($mode === null)
+		{
+			return array(	"fetchmode"		=> $this->current_fetchmode,
+							"fetchparam"	=> $this->current_fetchparam);
+		}
+		
 		$this->current_fetchmode = $mode;
 		$this->current_fetchparam = $param;
 	}
