@@ -15,7 +15,11 @@ class Dropdown
 	protected $selected;
 	protected $script;
 	protected $blank_option = true;
-
+	protected $callback;
+	
+	protected $datasource_fetchmode;
+	protected $datasource_fetchparam;
+	
 	protected $css = array(	// kv array of css classes
 		"select" 			=> "dd_select",
 		"option" 			=> "option",
@@ -81,8 +85,60 @@ class Dropdown
 	// Executes the query
 	protected function execute_statement()
 	{
-		$this->data = $this->db->execute($this->statement)->fetch_all();
-
+		$fetchmode = $this->db->fetchmode();
+		$this->datasource_fetchmode		= $fetchmode['fetchmode'];
+		$this->datasource_fetchparam	= $fetchmode['fetchparam'];
+		
+		$ds = $this->db;
+		$this->db->fetchmode($ds::FETCH_ASSOC);
+		
+		$result_set = $this->db->execute($this->statement)->fetch_all();
+		$columns = count($result_set[0]);
+		
+		if ($columns == 2)
+		{
+			reset($result_set[0]);
+			$key = key($result_set[0]);
+			next($result_set[0]);
+			$value = key($result_set[0]);
+			
+			foreach($result_set as $record)
+			{
+				$this->data[$record[$key]] = $record[$value];
+			}
+		}
+		else if ($columns > 2)
+		{
+			$callback = $this->callback;
+			foreach($result_set as $record)
+			{
+				$processed = $callback($record);
+				$this->data[$processed["key"]] = $processed["value"];
+			}
+		}
+		else
+		{
+			$key = key($result_set[0]);
+			foreach($result_set as $record)
+			{
+				$this->data[$key] = $key;
+			}
+		}
+		
+		$this->db->fetchmode($this->datasource_fetchmode, $this->datasource_fetchparam);
+	}
+	
+	protected function default_callback($record)
+	{
+		reset($record);
+		$key = current($record);
+		$value = "";
+		while(next($record) !== FALSE)
+			$value .= current($record).' ';
+		
+		$value = substr($value,0,strlen($value)-1);
+		return array(	"key"	=> $key,
+						"value"	=> $value);
 	}
 	
 	// output json
@@ -131,16 +187,26 @@ class Dropdown
 	*/	
 	public function setup($params)
 	{
+		
+		if (isset($params['callback']) )
+			$this->callback = $params['callback'];
+		else
+			$this->callback = function($record) { return $this->default_callback($record); };
+
 		if (isset($params['data']) )
+		{
 			$this->data($params['data']);
+		}
 		else if (	isset($params['statement']) &&
 					isset($params['datasource']))
+		{
 			$this->statement($params['datasource'],
 							 $params['statement'],
 							(isset($params['statement_now']) ? $params['statement_now'] : true));
+		}
 		else
 		{
-			throw new Exception('PEARALIZED: No data or statement provided');
+			throw new \Exception('PEARALIZED: No data or statement provided');
 		}
 		
 		if (isset($params['name']) )
@@ -159,6 +225,11 @@ class Dropdown
 			$this->css($params['css']);
 			
 		return $this;
+	}
+	
+	public function __toString()
+	{
+		return $this->html();
 	}
 }
 
