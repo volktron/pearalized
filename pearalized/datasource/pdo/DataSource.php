@@ -12,7 +12,7 @@ use PDOException;
 
 class DataSource extends \pearalized\datasource\DataSource implements DataSourceInterface
 {
-	const FETCH_ASSOC		= PDO::FETCH_BOTH;
+	const FETCH_ASSOC		= PDO::FETCH_ASSOC;
 	const FETCH_NUM			= PDO::FETCH_NUM;
 	const FETCH_CLASS		= PDO::FETCH_CLASS;
 	const FETCH_KEY_PAIR	= PDO::FETCH_KEY_PAIR;
