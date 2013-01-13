@@ -48,7 +48,7 @@ class DataSource extends \pearalized\datasource\DataSource implements DataSource
 	public function prepare($statement)
 	{
 		$pdo_statement = $this->pdo->prepare($statement);
-		return new Statement($pdo_statement);
+		return new Statement($pdo_statement, $this->current_fetchmode, $this->current_fetchparam);
 	}
 
 	public function execute($statement, $params = null)
