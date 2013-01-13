@@ -12,10 +12,14 @@ use PDO;
 class Statement implements StatementInterface
 {
 	private $statement;
+	protected $current_fetchmode;
+	protected $current_fetchparam;
 	
-	public function __construct($statement)
+	public function __construct($statement, $fetchmode, $fetchparam)
 	{
 		$this->statement = $statement;
+		$this->fetchmode = $fetchmode;
+		$this->fetchparam = $fetchparam;
 	}
 	
 	public function execute($params)
@@ -27,7 +31,7 @@ class Statement implements StatementInterface
 				$this->statement->bindValue($k, $v, PDO::PARAM_STR);
 		
 		$this->statement->execute();
-		return new Result($this->statement);
+		return new Result($this->statement, $this->current_fetchmode, $this->current_fetchparam);
 	}
 }
 
