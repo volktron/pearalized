@@ -93,7 +93,15 @@ class Dropdown
 		$this->db->fetchmode($ds::FETCH_ASSOC);
 		
 		$result_set = $this->db->execute($this->statement)->fetch_all();
-		$columns = count($result_set[0]);
+		
+		if (count($result_set))
+		{
+			$columns = count($result_set[0]);
+		}
+		else
+		{
+			$columns = 0;
+		}
 		
 		if ($columns == 2)
 		{
@@ -116,13 +124,17 @@ class Dropdown
 				$this->data[$processed["key"]] = $processed["value"];
 			}
 		}
-		else
+		else if ($columns == 1)
 		{
 			$key = key($result_set[0]);
 			foreach($result_set as $record)
 			{
 				$this->data[$key] = $key;
 			}
+		}
+		else
+		{
+			$this->data = array();
 		}
 		
 		$this->db->fetchmode($this->datasource_fetchmode, $this->datasource_fetchparam);
