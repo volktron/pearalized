@@ -116,6 +116,12 @@ SQL;
 				`test`.`test`
 SQL;
 
+		$sql_retrieve_records = <<<SQL
+			SELECT
+				*
+			FROM
+				`test`.`test`
+SQL;
 		/*******
 		 * PDO *
 		 *******/
@@ -130,6 +136,10 @@ SQL;
 		$this->pdo->execute($sql_inserts);
 		$data = $this->pdo->execute($sql_count_records)->fetch_row();
 		$this->assertEquals(6,$data['records']);
+		
+		// Test retrieving multiple records
+		$data = $this->pdo->execute($sql_retrieve_records)->fetch_all();
+		$this->assertEquals(6,count($data));
 		
 		// Test inserting one record, then retrieving the last insert id
 		$this->pdo->execute($sql_insert_one);
@@ -155,6 +165,10 @@ SQL;
 		$data = $this->mysqli->execute($sql_count_records)->fetch_row();
 		$this->assertEquals(6,$data['records']);
 		
+		// Test retrieving multiple records
+		$data = $this->mysqli->execute($sql_retrieve_records)->fetch_all();
+		$this->assertEquals(6,count($data));
+		
 		// Test inserting one record, then retrieving the last insert id
 		$this->mysqli->execute($sql_insert_one);
 		$this->assertEquals(7,$this->mysqli->last_insert_id());
@@ -178,6 +192,10 @@ SQL;
 		$this->mysql->execute($sql_inserts);
 		$data = $this->mysql->execute($sql_count_records)->fetch_row();
 		$this->assertEquals(6,$data['records']);
+		
+		// Test retrieving multiple records
+		$data = $this->mysql->execute($sql_retrieve_records)->fetch_all();
+		$this->assertEquals(6,count($data));
 		
 		// Test inserting one record, then retrieving the last insert id
 		$this->mysql->execute($sql_insert_one);
