@@ -35,7 +35,8 @@ function p($string, $params = null)
 	// For the most important stuff in Pearless to be accessed easily
 	$factories = array(
 		'datasource' 	=> 'pearalized\datasource\DataSourceFactory',
-		'cachesource'	=> 'pearalized\cachesource\CacheSourceFactory'
+		'cachesource'	=> 'pearalized\cachesource\CacheSourceFactory',
+		'router'		=> 'pearalized\routing\RouterFactory'
 	);
 
 	$classes = array(

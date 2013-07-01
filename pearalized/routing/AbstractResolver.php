@@ -1,6 +1,6 @@
 <?php
 
-namespace routing;
+namespace pearalized\routing;
 
 const ROUTE_PARAM		= 1;
 const ROUTE_CONTROLLER	= 2;

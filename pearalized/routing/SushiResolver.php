@@ -1,6 +1,6 @@
 <?php
 
-namespace routing;
+namespace \pearalized\routing;
 
 class SushiResolver extends AbstractResolver
 {

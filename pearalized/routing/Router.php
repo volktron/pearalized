@@ -1,10 +1,10 @@
 <?php
 
-namespace routing;
+namespace pearalized\routing;
 
 class Router
 {
-	protected $routes
+	protected $routes;
 	
 	public function __construct()
 	{
