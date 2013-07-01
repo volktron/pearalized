@@ -22,6 +22,6 @@ class Route
 	
 	public function resolve($path)
 	{
-		return $this->resolver($path);
+		return $this->resolver->resolve($path);
 	}
 }

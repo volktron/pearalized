@@ -1,12 +1,12 @@
 <?php
 
-namespace \pearalized\routing;
+namespace pearalized\routing;
 
 class SushiResolver extends AbstractResolver
 {
-	public function __construct($path)
+	public function __construct()
 	{
-		$this->path = $path;
+		parent::__construct();
 	}
 	
 	public function eats($type)
@@ -15,9 +15,10 @@ class SushiResolver extends AbstractResolver
 		return $this;
 	}
 	
-	public function resolve()
+	public function resolve($path)
 	{
-		$meal = split("/",$this->path);
+		$meal = array_values(array_filter(explode("/",$path),'trim'));
+		
 		$resolution = array(
 			"controller"	=> "Error",
 			"ajax"			=> false,
@@ -34,6 +35,6 @@ class SushiResolver extends AbstractResolver
 			}
 		}
 		
-		
+		return $resolution;
 	}
 }

@@ -8,7 +8,7 @@ class Router
 	
 	public function __construct()
 	{
-	
+		$this->routes = array();
 	}
 	
 	public function add($route)
@@ -19,8 +19,12 @@ class Router
 	
 	public function resolve($path)
 	{
-		//
-		return $controller;
+		foreach($this->routes as $route)
+		{
+			if ($route->matches($path))
+				return $route->resolve($path);
+		}
+		return 0;
 	}
 }
 

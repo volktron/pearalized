@@ -9,13 +9,12 @@ const ROUTE_AJAX		= 4;
 const ROUTE_RSS			= 5;
 const ROUTE_XML			= 6;
 
-class Resolver
+class AbstractResolver
 {
-	protected $path;
 	protected $mealplan;
 		
-	public function __construct($path)
+	public function __construct()
 	{
-		$this->path = $path;
+	
 	}
 }
