@@ -1,5 +1,10 @@
 <?php
 
+/*
+ * Router Class
+ * @author Henrik Volckmer
+ */
+
 namespace pearalized\routing;
 
 class Router

@@ -1,6 +1,6 @@
 <?php
 /*
- * datasource.test.php
+ * routing.test.php
  * @author Henrik Volckmer
  */
  
@@ -44,8 +44,23 @@ class RoutingTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals(
 			array(
 				"controller"	=> "aaa",
-				"ajax"			=> false,
+				"json"			=> false,
 				"params"		=> array("ccc")
+			),
+			$result);
+			
+		$route2 = new \pearalized\routing\Route(
+			"/(\d+)\/(\w+)\/(\d+)/",
+			$resolver);
+			
+		$router->add($route);
+		$result = $router->resolve('/123/abc/123');
+		
+		$this->assertEquals(
+			array(
+				"controller"	=> "123",
+				"json"			=> false,
+				"params"		=> array("123")
 			),
 			$result);
 	}

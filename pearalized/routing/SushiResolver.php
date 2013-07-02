@@ -21,7 +21,7 @@ class SushiResolver extends AbstractResolver
 		
 		$resolution = array(
 			"controller"	=> "Error",
-			"ajax"			=> false,
+			"json"			=> false,
 			"params"		=> array()
 		);
 		
@@ -30,7 +30,7 @@ class SushiResolver extends AbstractResolver
 			switch($this->mealplan[$i])
 			{
 				case ROUTE_PARAM:		$resolution["params"][]		= $meal[$i]; break;
-				case ROUTE_AJAX:		$resolution["ajax"]			= true; break;
+				case ROUTE_JSON:		$resolution["json"]			= true; break;
 				case ROUTE_CONTROLLER:	$resolution["controller"]	= $meal[$i]; break;
 			}
 		}
