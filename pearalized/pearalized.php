@@ -36,6 +36,7 @@ function p($string, $params = null)
 	$factories = array(
 		'datasource' 	=> 'pearalized\datasource\DataSourceFactory',
 		'cachesource'	=> 'pearalized\cachesource\CacheSourceFactory',
+		'controller'	=> 'pearalized\controller\ControllerFactory',
 		'router'		=> 'pearalized\routing\RouterFactory'
 	);
 

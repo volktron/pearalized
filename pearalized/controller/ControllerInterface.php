@@ -1,6 +1,6 @@
 <?php
 
-namespace controller;
+namespace pearalized\controller;
 
 interface ControllerInterface
 {

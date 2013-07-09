@@ -1,6 +1,6 @@
 <?php
 
-namespace Controller;
+namespace pearalized\controller;
 
 class Error extends AbstractController
 {

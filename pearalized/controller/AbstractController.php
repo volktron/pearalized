@@ -1,6 +1,6 @@
 <?php
 
-namespace controller;
+namespace pearalized\controller;
 
 abstract class AbstractController implements ControllerInterface
 {

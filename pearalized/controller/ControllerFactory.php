@@ -1,17 +1,17 @@
 <?php
 
-namespace controller;
+namespace pearalized\controller;
 
 class ControllerFactory
 {
-	public function produce($pagedata)
+	public function setup($params)
 	{
-		$classname = "\\controller\\".ucwords(strtolower($pagedata['controller']));
+		$classname = "pearalized\\controller\\".ucwords(strtolower($params['controller']));
 		
 		if(class_exists($classname))
-			$object = new $classname($pagedata);
+			$object = new $classname($params);
 		else
-			$object = new \controller\Error($pagedata);
+			$object = new \controller\Error($params);
 		return $object;
 	}
 }
