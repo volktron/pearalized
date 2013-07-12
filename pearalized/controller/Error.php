@@ -11,7 +11,7 @@ class Error extends AbstractController
 	
 	public function init()
 	{
-		$this->set_templates("error.php");
+		$this->renderer->add_template("error.php");
 	}
 	
 	public function execute()

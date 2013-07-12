@@ -1,5 +1,9 @@
 <?php
 
+/**	ControllerFactory.php
+ *	@author Henrik Volckmer
+ */
+ 
 namespace pearalized\controller;
 
 class ControllerFactory

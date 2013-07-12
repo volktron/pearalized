@@ -30,7 +30,10 @@ class SushiResolver extends AbstractResolver
 			switch($this->mealplan[$i])
 			{
 				case ROUTE_PARAM:		$resolution["params"][]		= $meal[$i]; break;
-				case ROUTE_JSON:		$resolution["json"]			= true; break;
+				case ROUTE_JSON:
+				case ROUTE_RSS:
+				case ROUTE_XML:
+				case ROUTE_HTML:		$resolution["output"]		= $meal[$i]; break;
 				case ROUTE_CONTROLLER:	$resolution["controller"]	= $meal[$i]; break;
 			}
 		}

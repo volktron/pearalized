@@ -1,10 +1,8 @@
 <?php
 
-/*	Pearless.php
+/**	pearalized.php
  *	@author Henrik Volckmer
  */
-
-//require_once(PEARALIZED_PATH . "/pearalized/lib/string.php");
 
 spl_autoload_register(function($class_name)
 {
@@ -32,7 +30,7 @@ function o($name, $obj = false)
 function p($string, $params = null)
 {
 
-	// For the most important stuff in Pearless to be accessed easily
+	// For the most important stuff in pearalized to be accessed easily
 	$factories = array(
 		'datasource' 	=> 'pearalized\datasource\DataSourceFactory',
 		'cachesource'	=> 'pearalized\cachesource\CacheSourceFactory',
