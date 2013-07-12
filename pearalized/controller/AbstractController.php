@@ -19,12 +19,12 @@ abstract class AbstractController implements ControllerInterface
 	// TODO: use some sort of json rendering object
 	public function json($flags = 0)
 	{
-		echo json_encode($output_data,$flags);
+		json_encode($this->output_data,$flags);
 	}
 	
 	public function output()
 	{
 		$output_function = $this->params['output'];
-		$output_function();
+		$this->$output_function();
 	}
 }

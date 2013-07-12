@@ -11,13 +11,26 @@
 
 class ControllerTest extends PHPUnit_Framework_TestCase
 {
-	public function test_create_controller()
+	protected function create_controller()
 	{
 		$params = array(
-			"controller" => "Error"
-		);
-		
+			"controller"	=> "Error",
+			"output"		=> "json"
+		);	
 		$controller = p("controller")->setup($params);
+		return $controller;
+	}
+	
+	public function test_create_controller()
+	{
+		$controller = $this->create_controller();
+		$this->assertInstanceOf('\pearalized\controller\AbstractController',$controller);
+	}
+	
+	public function test_json_output()
+	{
+		$controller = $this->create_controller();
+		echo $controller->output();
 	}
 }
 

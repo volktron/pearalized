@@ -26,9 +26,9 @@ class RoutingTest extends PHPUnit_Framework_TestCase
 	public function test_simple_routing()
 	{
 		$resolver = new \pearalized\routing\SushiResolver();
-		$resolver->eats(pearalized\routing\ROUTE_CONTROLLER);
-		$resolver->eats(pearalized\routing\ROUTE_OUTPUT_TYPE);
-		$resolver->eats(pearalized\routing\ROUTE_PARAM);
+		$resolver->eats(pearalized\routing\Route::ROUTE_CONTROLLER);
+		$resolver->eats(pearalized\routing\Route::ROUTE_OUTPUT_TYPE);
+		$resolver->eats(pearalized\routing\Route::ROUTE_PARAM);
 		
 		$route = new \pearalized\routing\Route(
 			"/(\w+)\/(\w+)\/(\w+)/",
@@ -44,7 +44,7 @@ class RoutingTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals(
 			array(
 				"controller"	=> "aaa",
-				"json"			=> false,
+				"output"		=> "bbb",
 				"params"		=> array("ccc")
 			),
 			$result);
@@ -59,7 +59,7 @@ class RoutingTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals(
 			array(
 				"controller"	=> "123",
-				"json"			=> false,
+				"output"		=> "abc",
 				"params"		=> array("123")
 			),
 			$result);

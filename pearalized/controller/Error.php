@@ -4,9 +4,9 @@ namespace pearalized\controller;
 
 class Error extends AbstractController
 {
-	public function __construct($query)
+	public function __construct($params)
 	{
-		$this->query = $query;
+		parent::__construct($params);
 	}
 	
 	public function init()
