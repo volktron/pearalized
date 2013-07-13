@@ -14,12 +14,13 @@ abstract class AbstractController implements ControllerInterface
 	public function __construct($params)
 	{
 		$this->params = $params;
+		$this->output_data = array();
 	}
 	
 	// TODO: use some sort of json rendering object
 	public function json($flags = 0)
 	{
-		json_encode($this->output_data,$flags);
+		echo json_encode($this->output_data,$flags);
 	}
 	
 	public function output()

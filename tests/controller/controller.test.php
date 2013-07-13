@@ -29,6 +29,7 @@ class ControllerTest extends PHPUnit_Framework_TestCase
 	
 	public function test_json_output()
 	{
+		$this->expectOutputString('[]');
 		$controller = $this->create_controller();
 		echo $controller->output();
 	}
