@@ -13,9 +13,4 @@ class Error extends AbstractController
 	{
 		$this->renderer->add_template("error.php");
 	}
-	
-	public function execute()
-	{		
-		$this->renderer->render();
-	}
 }
