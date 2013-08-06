@@ -1,5 +1,7 @@
 language: php
 php:
   - 5.3
+services:
+  - memcache
   
 script: phpunit --configuration ./tests/tests.xml
