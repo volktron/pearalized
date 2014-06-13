@@ -93,6 +93,21 @@ class DataSource extends \pearalized\datasource\DataSource implements DataSource
 		// No need for this in PDO
 		return $data;
 	}
+	
+	public function begin_transaction()
+	{
+		return $this->pdo->beginTransaction();
+	}
+	
+	public function in_transaction()
+	{
+		return $this->pdo->inTransaction();
+	}
+	
+	public function commit_transaction()
+	{
+		return $this->pdo->commit();
+	}
 }
 
 ?>
